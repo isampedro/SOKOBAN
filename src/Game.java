@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class Game {
     public static void main(String[] args) {
-        Sokoban game = new Sokoban(16, 16, 5, 5);
+        Sokoban game = new Sokoban();
         game.show();
         JFrame frame = new JFrame("Key Listener");
         Container contentPane = frame.getContentPane();

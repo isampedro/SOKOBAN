@@ -1,46 +1,51 @@
 public class Sokoban {
-    private Cells[][] gameMap;
-    private int x, y, playerX, playerY;
+    final private Cells[][] gameMap;
+    final private int x,y;
+    private int playerX, playerY;
 
-    Sokoban(int x,int y, int playerX, int playerY) {
+    Sokoban() {
+        x = 15;
+        y = 15;
         gameMap = new Cells[x][y];
-        this.x = x;
-        this.y = y;
-        this.playerX = playerX;
-        this.playerY = playerY;
+        playerX = x/2;
+        playerY = y/2;
 
         gameMap[playerX][playerY] = Cells.Player;
 
+        gameMap[playerX+1][playerY+1] = Cells.Box; gameMap[playerX-1][playerY+1] = Cells.Box;
+        gameMap[playerX+1][playerY-1] = Cells.Box; gameMap[playerX-1][playerY-1] = Cells.Box;
+
         for( int j = 0; j < y; j++) {
-            gameMap[0][j] = Cells.Wall;
-            gameMap[x-1][j] = Cells.Wall;
+            gameMap[0][j] = Cells.Wall; gameMap[x-1][j] = Cells.Wall;
         }
         for( int i = 0; i < x; i++) {
-            gameMap[i][0] = Cells.Wall;
-            gameMap[i][y-1] = Cells.Wall;
+            gameMap[i][0] = Cells.Wall; gameMap[i][y-1] = Cells.Wall;
         }
 
     }
 
     public boolean canMoveLeft() {
-        return gameMap[playerX][playerY - 1] != Cells.Wall;
+        return gameMap[playerX][playerY - 1] == null || (gameMap[playerX][playerY - 1] == Cells.Box && gameMap[playerX][playerY - 2] == null );
     }
 
     public boolean canMoveRight() {
-        return gameMap[playerX][playerY + 1] != Cells.Wall;
+        return gameMap[playerX][playerY + 1] == null || (gameMap[playerX][playerY + 1] == Cells.Box && gameMap[playerX][playerY + 2] == null );
     }
 
     public boolean canMoveUp() {
-        return gameMap[playerX - 1][playerY] != Cells.Wall;
+        return gameMap[playerX - 1][playerY] == null || (gameMap[playerX - 1][playerY] == Cells.Box && gameMap[playerX - 2][playerY] == null );
     }
 
     public boolean canMoveDown() {
-        return gameMap[playerX + 1][playerY] != Cells.Wall;
+        return gameMap[playerX + 1][playerY] == null || (gameMap[playerX + 1][playerY] == Cells.Box && gameMap[playerX + 2][playerY] == null );
     }
 
     public void moveLeft() {
         if( this.canMoveLeft() ) {
             gameMap[playerX][playerY] = null;
+            if( gameMap[playerX][playerY - 1] == Cells.Box ){
+                gameMap[playerX][playerY - 2] = Cells.Box;
+            }
             gameMap[playerX][playerY - 1] = Cells.Player;
             this.updatePlayer(0,-1);
         }
@@ -49,6 +54,9 @@ public class Sokoban {
     public void moveRight() {
         if( this.canMoveRight() ) {
             gameMap[playerX][playerY] = null;
+            if( gameMap[playerX][playerY + 1] == Cells.Box ){
+                gameMap[playerX][playerY + 2] = Cells.Box;
+            }
             gameMap[playerX][playerY + 1] = Cells.Player;
             this.updatePlayer(0,1);
         }
@@ -57,6 +65,9 @@ public class Sokoban {
     public void moveUp() {
         if( this.canMoveUp() ) {
             gameMap[playerX][playerY] = null;
+            if( gameMap[playerX - 1][playerY] == Cells.Box ){
+                gameMap[playerX - 2][playerY] = Cells.Box;
+            }
             gameMap[playerX - 1][playerY] = Cells.Player;
             this.updatePlayer(-1,0);
         }
@@ -65,6 +76,9 @@ public class Sokoban {
     public void moveDown() {
         if( this.canMoveDown() ) {
             gameMap[playerX][playerY] = null;
+            if( gameMap[playerX + 1][playerY] == Cells.Box ){
+                gameMap[playerX + 2][playerY] = Cells.Box;
+            }
             gameMap[playerX + 1][playerY] = Cells.Player;
             this.updatePlayer(1, 0);
         }
@@ -82,6 +96,8 @@ public class Sokoban {
                     System.out.print(' ');
                 } else if( gameMap[i][j] == Cells.Player) {
                     System.out.print('p');
+                } else if( gameMap[i][j] == Cells.Box ) {
+                    System.out.print('b');
                 } else {
                     System.out.print('*');
                 }
