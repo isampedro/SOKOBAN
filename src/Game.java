@@ -27,6 +27,10 @@ public class Game {
                         break;
                 }
                 game.show();
+                if(game.isOver()) {
+                    System.out.println("You Won!");
+                    System.exit(0);
+                }
             }
 
             @Override
