@@ -5,8 +5,8 @@ import java.awt.event.KeyListener;
 
 public class Game {
     public static void main(String[] args) {
-        Sokoban game = new Sokoban();
-        game.show();
+        final Sokoban[] game = {new Sokoban()};
+        game[0].show();
         JFrame frame = new JFrame("Key Listener");
         Container contentPane = frame.getContentPane();
         KeyListener listener = new KeyListener() {
@@ -14,20 +14,20 @@ public class Game {
             public void keyTyped(KeyEvent e) {
                 switch (Character.toLowerCase(e.getKeyChar())) {
                     case 'a':
-                        game.moveLeft();
+                        game[0] = game[0].moveLeft();
                         break;
                     case 'w':
-                        game.moveUp();
+                        game[0] = game[0].moveUp();
                         break;
                     case 'd':
-                        game.moveRight();
+                        game[0] = game[0].moveRight();
                         break;
                     case 's':
-                        game.moveDown();
+                        game[0] = game[0].moveDown();
                         break;
                 }
-                game.show();
-                if(game.isOver()) {
+                game[0].show();
+                if(game[0].isOver()) {
                     System.out.println("You Won!");
                     System.exit(0);
                 }
