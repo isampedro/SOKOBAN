@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Sokoban {
     private final Cells[][] gameMap;
-    private final int x, y;
+    private final int x = 7, y = 7;
     private final Pair player;
     private final Directions direction;
     private final List<Pair> boxesPositions;
@@ -11,8 +11,6 @@ public class Sokoban {
     private boolean movingBox;
     
     private Sokoban(List<Pair> boxes, Pair player, Directions direction) {
-        x = 7;
-        y = 7;
         gameMap = new Cells[x][y];
         this.player = player;
         gameMap[player.getX()][player.getY()] = Cells.Player;
@@ -74,8 +72,6 @@ public class Sokoban {
     }
     
     Sokoban() {
-        x = 7;
-        y = 7;
         gameMap = new Cells[x][y];
         player = new Pair(x/2, y/2);
         direction = null;
