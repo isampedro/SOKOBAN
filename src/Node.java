@@ -6,6 +6,15 @@ public class Node {
     private Node parentNode;
     private int depth;
     private List<Directions> movements;
+    private List<Pair> positions;
+
+    Node(Sokoban board, Node parentNode, int depth, List<Pair> positions, List<Directions> movements) {
+        this.board = board;
+        this.parentNode = parentNode;
+        this.depth = depth;
+        this.positions = positions;
+        this.movements = movements;
+    }
 
     Node(Sokoban board, Node parentNode, int depth) {
         this.board = board;
@@ -39,6 +48,14 @@ public class Node {
 
     public int getDepth() {
         return depth;
+    }
+
+    public List<Pair> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<Pair> positions) {
+        this.positions = positions;
     }
 
     public void setDepth(int depth) {

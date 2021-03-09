@@ -6,7 +6,7 @@ public class DFS {
     public static Node solve(Node current, List<Pair> positions) {
         int TILES = 7 - 2;
         int BOARD = TILES*TILES;
-        int BOXES = 4;
+        int BOXES = 2;
         int MAX_MOVEMENTS = BOARD*BOXES;
         List<Node> solutions = new LinkedList<>();
         if( current.getMovements() != null && current.getMovements().size() > MAX_MOVEMENTS) {

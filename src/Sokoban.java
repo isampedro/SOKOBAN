@@ -34,18 +34,18 @@ public class Sokoban {
         } else {
             gameMap[1][y-2] = Cells.Objective;
         }
-        if(boxesPositions.contains(new Pair(x-2, 1))) {
-            gameMap[x-2][1] = Cells.SteppedObjective;
-            steppedObjectives++;
-        } else {
-            gameMap[x-2][1] = Cells.Objective;
-        }
-        if(boxesPositions.contains(new Pair(x-2, y-2))) {
-            gameMap[x-2][y-2] = Cells.SteppedObjective;
-            steppedObjectives++;
-        } else {
-            gameMap[x-2][y-2] = Cells.Objective;
-        }
+//        if(boxesPositions.contains(new Pair(x-2, 1))) {
+//            gameMap[x-2][1] = Cells.SteppedObjective;
+//            steppedObjectives++;
+//        } else {
+//            gameMap[x-2][1] = Cells.Objective;
+//        }
+//        if(boxesPositions.contains(new Pair(x-2, y-2))) {
+//            gameMap[x-2][y-2] = Cells.SteppedObjective;
+//            steppedObjectives++;
+//        } else {
+//            gameMap[x-2][y-2] = Cells.Objective;
+//        }
 
         switch (direction) {
             case Up:
@@ -80,19 +80,19 @@ public class Sokoban {
         gameMap[player.getX()][player.getY()] = Cells.Player;
 
         boxesPositions = new LinkedList<>();
-        boxesPositions.add( new Pair(player.getX()+1, player.getY()+1));
+//        boxesPositions.add( new Pair(player.getX()+1, player.getY()+1));
         boxesPositions.add( new Pair(player.getX()-1, player.getY()+1));
         boxesPositions.add( new Pair(player.getX()-1, player.getY()-1));
-        boxesPositions.add( new Pair(player.getX()+1, player.getY()-1));
-        gameMap[player.getX()+1][player.getY()+1] = Cells.Box;
+//        boxesPositions.add( new Pair(player.getX()+1, player.getY()-1));
+//        gameMap[player.getX()+1][player.getY()+1] = Cells.Box;
         gameMap[player.getX()-1][player.getY()+1] = Cells.Box;
-        gameMap[player.getX()+1][player.getY()-1] = Cells.Box;
+//        gameMap[player.getX()+1][player.getY()-1] = Cells.Box;
         gameMap[player.getX()-1][player.getY()-1] = Cells.Box;
 
         gameMap[1][1] = Cells.Objective;
         gameMap[1][y-2] = Cells.Objective;
-        gameMap[x-2][1] = Cells.Objective;
-        gameMap[x-2][y-2] = Cells.Objective;
+//        gameMap[x-2][1] = Cells.Objective;
+//        gameMap[x-2][y-2] = Cells.Objective;
 
         steppedObjectives = 0;
 
@@ -159,16 +159,16 @@ public class Sokoban {
 
     public List<Sokoban> getPossibleMoves() {
         List<Sokoban> moves = new LinkedList<>();
-        if( canMoveLeft() && direction != Directions.Right ) {
+        if( canMoveLeft() ) {
             moves.add(moveLeft());
         }
-        if( canMoveRight() && direction != Directions.Left ) {
+        if( canMoveRight()) {
             moves.add(moveRight());
         }
-        if( canMoveUp() && direction != Directions.Down ) {
+        if( canMoveUp() ) {
             moves.add(moveUp());
         }
-        if( canMoveDown() && direction != Directions.Up ) {
+        if( canMoveDown() ) {
             moves.add(moveDown());
         }
 
