@@ -20,7 +20,8 @@ public class DFS2 {
             aux = frontierNodes.pop();
             visitedNodes.add(aux);
             if( aux.getBoard().isOver() ) {
-                // TODO: terminar el algoritmo
+                aux.getBoard().show();
+                return aux;
             }
             if( aux.getMovements().size() <= MAX_MOVEMENTS) {
                 List<Sokoban> moves = aux.getBoard().getPossibleMoves();
@@ -31,12 +32,21 @@ public class DFS2 {
                     childNodes.add(new Node(move, aux, aux.getDepth() + 1, null, movements));
                 }
                 for (Node childNode : childNodes) {
-                    if( !visitedNodes.contains(childNode) && !frontierNodes.contains(childNode)) {
+                    if( !contains(visitedNodes, childNode) && !contains(frontierNodes, childNode)) {
                         frontierNodes.push(childNode);
                     }
                 }
             }
         }
         return aux;
+    }
+
+    private static boolean contains( Iterable<Node> nodeList, Node node ) {
+        for (Node nodeFromList : nodeList) {
+            if( nodeFromList.equalsNotDepth( node ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -83,6 +83,13 @@ public class Node {
                 Objects.equals(positions, node.positions);
     }
 
+    public boolean equalsNotDepth( Object o ) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return  board.equals(node.board);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(board, parentNode, depth, movements, positions);

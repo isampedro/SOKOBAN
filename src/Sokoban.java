@@ -1,5 +1,7 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Sokoban {
     private final Cells[][] gameMap;
@@ -233,5 +235,23 @@ public class Sokoban {
 
     public boolean isMovingBox() {
         return movingBox;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sokoban sokoban = (Sokoban) o;
+        return  steppedObjectives == sokoban.steppedObjectives &&
+                movingBox == sokoban.movingBox &&
+                Objects.equals(player, sokoban.player) &&
+                Objects.equals(boxesPositions, sokoban.boxesPositions);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(x, y, player, direction, boxesPositions, steppedObjectives, movingBox);
+        result = 31 * result + Arrays.hashCode(gameMap);
+        return result;
     }
 }
