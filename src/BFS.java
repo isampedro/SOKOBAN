@@ -6,7 +6,7 @@ public class BFS {
     public static Node solve(Sokoban game) {
         int TILES = 7 - 2;
         int BOARD = TILES*TILES;
-        int BOXES = 3;
+        int BOXES = 2;
         int MAX_MOVEMENTS = BOARD*BOXES;
 
         List<Pair> positions;

@@ -10,7 +10,7 @@ public class Sokoban {
     private int steppedObjectives;
     private boolean movingBox;
     
-    private Sokoban(List<Pair> boxes, Pair player, Directions direction) {
+    private Sokoban(List<Pair> boxes, Pair player, Directions direction, boolean movedBox) {
         gameMap = new Cells[x][y];
         this.player = player;
         gameMap[player.getX()][player.getY()] = Cells.Player;
@@ -47,20 +47,7 @@ public class Sokoban {
 //            gameMap[x-2][y-2] = Cells.Objective;
 //        }
 
-        switch (direction) {
-            case Up:
-                movingBox = gameMap[player.getX() - 1][player.getY()] == Cells.Box || gameMap[player.getX() - 1][player.getY()] == Cells.SteppedObjective;
-                break;
-            case Down:
-                movingBox = gameMap[player.getX() + 1][player.getY()] == Cells.Box || gameMap[player.getX() + 1][player.getY()] == Cells.SteppedObjective;
-                break;
-            case Left:
-                movingBox = gameMap[player.getX()][player.getY() - 1] == Cells.Box || gameMap[player.getX()][player.getY() - 1] == Cells.SteppedObjective;
-                break;
-            case Right:
-                movingBox = gameMap[player.getX()][player.getY() + 1] == Cells.Box || gameMap[player.getX()][player.getY() + 1] == Cells.SteppedObjective;
-                break;
-        }
+        movingBox = movedBox;
 
         for( int j = 0; j < y; j++) {
             gameMap[0][j] = Cells.Wall; gameMap[x-1][j] = Cells.Wall;
@@ -136,9 +123,9 @@ public class Sokoban {
                 List<Pair> boxesAux = new LinkedList<>(boxesPositions);
                 boxesAux.remove(new Pair(player.getX(), player.getY()-1));
                 boxesAux.add(new Pair(player.getX(), player.getY()-2));
-                return new Sokoban(boxesAux, playerAux, Directions.Left);
+                return new Sokoban(boxesAux, playerAux, Directions.Left, true);
             }
-            return new Sokoban(boxesPositions, playerAux, Directions.Left);
+            return new Sokoban(boxesPositions, playerAux, Directions.Left, false);
         }
         return this;
     }
@@ -150,9 +137,9 @@ public class Sokoban {
                 List<Pair> boxesAux = new LinkedList<>(boxesPositions);
                 boxesAux.remove(new Pair(player.getX(), player.getY()+1));
                 boxesAux.add(new Pair(player.getX(), player.getY()+2));
-                return new Sokoban(boxesAux, playerAux, Directions.Right);
+                return new Sokoban(boxesAux, playerAux, Directions.Right, true);
             }
-            return new Sokoban(boxesPositions, playerAux, Directions.Right);
+            return new Sokoban(boxesPositions, playerAux, Directions.Right, false);
         }
         return this;
     }
@@ -182,9 +169,9 @@ public class Sokoban {
                 List<Pair> boxesAux = new LinkedList<>(boxesPositions);
                 boxesAux.remove(new Pair(player.getX()-1, player.getY()));
                 boxesAux.add(new Pair(player.getX()-2, player.getY()));
-                return new Sokoban(boxesAux, playerAux, Directions.Up);
+                return new Sokoban(boxesAux, playerAux, Directions.Up, true);
             }
-            return new Sokoban(boxesPositions, playerAux, Directions.Up);
+            return new Sokoban(boxesPositions, playerAux, Directions.Up, false);
         }
         return this;
     }
@@ -196,9 +183,9 @@ public class Sokoban {
                 List<Pair> boxesAux = new LinkedList<>(boxesPositions);
                 boxesAux.remove(new Pair(player.getX()+1, player.getY()));
                 boxesAux.add(new Pair(player.getX()+2, player.getY()));
-                return new Sokoban(boxesAux, playerAux, Directions.Down);
+                return new Sokoban(boxesAux, playerAux, Directions.Down, true);
             }
-            return new Sokoban(boxesPositions, playerAux, Directions.Down);
+            return new Sokoban(boxesPositions, playerAux, Directions.Down, false);
         }
         return this;
     }
