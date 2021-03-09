@@ -20,7 +20,6 @@ public class DFS2 {
             aux = frontierNodes.pop();
             visitedNodes.add(aux);
             if( aux.getBoard().isOver() ) {
-                aux.getBoard().show();
                 return aux;
             }
             if( aux.getMovements().size() <= MAX_MOVEMENTS) {
