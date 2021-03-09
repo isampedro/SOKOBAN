@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Node {
     private Sokoban board;
@@ -14,6 +15,14 @@ public class Node {
         this.depth = depth;
         this.positions = positions;
         this.movements = movements;
+    }
+
+    Node( Node node ) {
+        this.board = node.board;
+        this.parentNode = node.parentNode;
+        this.positions = node.positions;
+        this.movements = node.movements;
+        this.depth = node.depth;
     }
 
     Node(Sokoban board, Node parentNode, int depth) {
@@ -60,5 +69,22 @@ public class Node {
 
     public void setDepth(int depth) {
         this.depth = depth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return depth == node.depth &&
+                board.equals(node.board) &&
+                Objects.equals(parentNode, node.parentNode) &&
+                Objects.equals(movements, node.movements) &&
+                Objects.equals(positions, node.positions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(board, parentNode, depth, movements, positions);
     }
 }
