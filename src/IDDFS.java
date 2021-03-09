@@ -3,12 +3,12 @@ import java.util.List;
 import java.util.Queue;
 
 public class IDDFS {
-    private static final List<Node> endNodes = new LinkedList<>();
+    private static  Node endNode;
     private static final List<Node> visited = new LinkedList<>();
     private static boolean DLS( Node node, int limit ) {
 
         if( node.getBoard().isOver() ) {
-            endNodes.add(node);
+            endNode = node;
             return true;
         }
 
@@ -26,19 +26,19 @@ public class IDDFS {
             childNodes.add(nodeAux);
         }
 
-        boolean finished = false;
+
         for (Node childNode : childNodes) {
             if( !contains(visited, childNode) ) {
                 visited.add(childNode);
                 if( DLS(childNode, limit) ) {
-                    finished = true;
+                    return true;
                 } else {
                     visited.remove(childNode);
                 }
             }
         }
 
-        return finished;
+        return false;
     }
 
 
@@ -64,16 +64,10 @@ public class IDDFS {
         frontier.offer(startNode);
         Node aux = null;
 
-        for( limit = 0; limit < MAX_MOVEMENTS; limit+= LIMIT) {
+        for( limit = 0; limit < MAX_MOVEMENTS; limit ++) {
             boolean isOver = DLS(startNode, limit);
             if( isOver ) {
-                Node min = endNodes.get(0);
-                for (Node endNode : endNodes) {
-                    if( min.getMovements().size() > endNode.getMovements().size() ) {
-                        min = endNode;
-                    }
-                }
-                return min;
+                return endNode;
             }
         }
         return null;
