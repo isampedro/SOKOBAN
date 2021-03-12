@@ -353,7 +353,7 @@ public class Sokoban {
                             System.out.print('o');
                             break;
                         case PlayerOnObjective:
-                            System.out.println('+');
+                            System.out.print('+');
                             break;
                         default:
                             System.out.print('#');
