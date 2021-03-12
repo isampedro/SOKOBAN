@@ -42,7 +42,8 @@ public class Snapshot {
         if (o == null || getClass() != o.getClass()) return false;
         Snapshot snapshot = (Snapshot) o;
         return movingBox == snapshot.movingBox &&
-                Arrays.equals(game, snapshot.game);
+               direction == snapshot.direction &&
+                new Sokoban(game).equals(new Sokoban(snapshot.game));
     }
 
     @Override
