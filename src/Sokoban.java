@@ -10,7 +10,7 @@ public class Sokoban {
     private  Pair player;
     private  Directions direction;
     private final List<Pair> boxesPositions, wallsPositions, objectivesPositions;
-    private int steppedObjectives = 0;
+    private final int steppedObjectives;
     private  boolean movingBox;
 
     Sokoban( Snapshot game ) {
@@ -18,6 +18,7 @@ public class Sokoban {
         this.movingBox = game.isMovingBox();
         boxesPositions = new LinkedList<>();
         wallsPositions = new LinkedList<>();
+        int steppedObjectives = 0;
         objectivesPositions = new LinkedList<>();
         gameMap = new Cells[game.getGame().length][];
         for( int i = 0; i < game.getGame().length; i++ ) {
@@ -41,15 +42,28 @@ public class Sokoban {
                             gameMap[i][j] = Cells.Player;
                             player = new Pair(i,j);
                             break;
+                        case 'o':
+                            gameMap[i][j] = Cells.BoxOnObjective;
+                            objectivesPositions.add(new Pair(i,j));
+                            boxesPositions.add(new Pair(i,j));
+                            steppedObjectives++;
+                            break;
+                        case '+':
+                            gameMap[i][j] = Cells.PlayerOnObjective;
+                            objectivesPositions.add(new Pair(i, j));
+                            player = new Pair(i, j);
+                            break;
                     }
                 }
             }
         }
+        this.steppedObjectives = steppedObjectives;
     }
 
     Sokoban(Character[][] game ) {
         boxesPositions = new LinkedList<>();
         wallsPositions = new LinkedList<>();
+        int steppedObjectives = 0;
         objectivesPositions = new LinkedList<>();
         gameMap = new Cells[game.length][];
         for( int i = 0; i < game.length; i++ ) {
@@ -73,10 +87,22 @@ public class Sokoban {
                             gameMap[i][j] = Cells.Player;
                             player = new Pair(i,j);
                             break;
+                        case '+':
+                            gameMap[i][j] = Cells.PlayerOnObjective;
+                            objectivesPositions.add(new Pair(i,j));
+                            player = new Pair(i,j);
+                            break;
+                        case 'o':
+                            gameMap[i][j] = Cells.BoxOnObjective;
+                            objectivesPositions.add(new Pair(i,j));
+                            boxesPositions.add(new Pair(i, j));
+                            steppedObjectives++;
+                            break;
                     }
                 }
             }
         }
+        this.steppedObjectives = steppedObjectives;
     }
 
     private Sokoban( List<Pair> walls, List<Pair> boxes, List<Pair> objectives, Pair player, int x, int y, Directions direction, boolean movingBox ) {
@@ -87,6 +113,7 @@ public class Sokoban {
         this.objectivesPositions = objectives;
         this.direction = direction;
         this.movingBox = movingBox;
+        int steppedObjectives = 0;
 
         for (Pair wall : walls) {
             this.gameMap[wall.getX()][wall.getY()] = Cells.Wall;
@@ -95,17 +122,20 @@ public class Sokoban {
             this.gameMap[box.getX()][box.getY()] = Cells.Box;
         }
         for( Pair objective : objectives ) {
-            for( Pair box : boxes ) {
-                if( box.getX().equals(objective.getX()) && box.getY().equals(objective.getY()) ) {
-                    this.gameMap[objective.getX()][objective.getY()] = Cells.SteppedObjective;
-                    this.steppedObjectives++;
-                } else {
-                    this.gameMap[objective.getX()][objective.getY()] = Cells.Objective;
-                }
+            if( isBox(gameMap[objective.getX()][objective.getY()]) ) {
+                this.gameMap[objective.getX()][objective.getY()] = Cells.BoxOnObjective;
+                steppedObjectives++;
+            } else {
+                this.gameMap[objective.getX()][objective.getY()] = Cells.Objective;
             }
         }
+        this.steppedObjectives = steppedObjectives;
 
-        this.gameMap[player.getX()][player.getY()] = Cells.Player;
+        if( isObjective(gameMap[player.getX()][player.getY()]) ) {
+            this.gameMap[player.getX()][player.getY()] = Cells.PlayerOnObjective;
+        } else {
+            this.gameMap[player.getX()][player.getY()] = Cells.Player;
+        }
     }
 
     Sokoban( List<Pair> walls, List<Pair> boxes, List<Pair> objectives, Pair player, int x, int y ) {
@@ -115,10 +145,10 @@ public class Sokoban {
         this.player = player;
         this.direction = null;
         this.movingBox = false;
-        this.gameMap[player.getX()][player.getY()] = Cells.Player;
         this.boxesPositions = boxes;
         this.wallsPositions = walls;
         this.objectivesPositions = objectives;
+        int steppedObjectives = 0;
 
         for (Pair wall : walls) {
             this.gameMap[wall.getX()][wall.getY()] = Cells.Wall;
@@ -127,7 +157,19 @@ public class Sokoban {
             this.gameMap[box.getX()][box.getY()] = Cells.Box;
         }
         for( Pair objective : objectives ) {
-            this.gameMap[objective.getX()][objective.getY()] = Cells.Objective;
+            if( isBox(this.gameMap[objective.getX()][objective.getY()]) ){
+                this.gameMap[objective.getX()][objective.getY()] = Cells.BoxOnObjective;
+                steppedObjectives++;
+            } else {
+                this.gameMap[objective.getX()][objective.getY()] = Cells.Objective;
+            }
+        }
+        this.steppedObjectives = steppedObjectives;
+
+        if( isObjective(gameMap[player.getX()][player.getY()]) ) {
+            this.gameMap[player.getX()][player.getY()] = Cells.PlayerOnObjective;
+        } else {
+            this.gameMap[player.getX()][player.getY()] = Cells.Player;
         }
     }
 
@@ -144,68 +186,122 @@ public class Sokoban {
                         case Box:
                             game[i][j] = '$';
                             break;
+                        case BoxOnObjective:
+                            game[i][j] = 'o';
+                            break;
                         case Objective:
                             game[i][j] = '.';
                             break;
                         case Player:
                             game[i][j] = '@';
                             break;
+                        case PlayerOnObjective:
+                            game[i][j] = '+';
+                            break;
                     }
                 }
             }
         }
-        Snapshot snapshot = new Snapshot(game, direction, movingBox);
-        return snapshot;
+        return new Snapshot(game, direction, movingBox);
     }
 
-    public boolean canMoveLeft() {
-        return gameMap[player.getX()][player.getY() - 1] == null
-                || ((gameMap[player.getX()][player.getY() - 1] == Cells.Box || gameMap[player.getX()][player.getY() - 1] == Cells.SteppedObjective) && (gameMap[player.getX()][player.getY() - 2] == null || gameMap[player.getX()][player.getY() - 2] == Cells.Objective || gameMap[player.getX()][player.getY() - 2] == Cells.SteppedObjective));
+    private boolean isBoxAndObjective( Cells cell ) {
+        return cell == Cells.Box || cell == Cells.BoxOnObjective;
     }
 
+    private boolean isBox( Cells cell ) {
+        return cell == Cells.Box;
+    }
+
+    private boolean isPath( Cells cell ) {
+        return cell == null;
+    }
+    
+    private boolean isObjective( Cells cell ) {
+        return cell == Cells.Objective;
+    }
+    
+    private boolean isPlayerOnObjective( Cells cell ) {
+        return cell == Cells.PlayerOnObjective;
+    }
+    
     public Directions getDirection() {
         return direction;
     }
 
+    public boolean canMoveLeft() {
+        return isPath(gameMap[player.getX()][player.getY() - 1]) 
+                || (isBoxAndObjective(gameMap[player.getX()][player.getY() - 1]) && (isPath(gameMap[player.getX()][player.getY() - 2]) || isObjective(gameMap[player.getX()][player.getY() - 2])));
+    }
+    
     public boolean canMoveRight() {
-        return gameMap[player.getX()][player.getY() + 1] == null
-                || ((gameMap[player.getX()][player.getY() + 1] == Cells.Box || gameMap[player.getX()][player.getY() + 1] == Cells.SteppedObjective) && (gameMap[player.getX()][player.getY() + 2] == null || gameMap[player.getX()][player.getY() + 2] == Cells.Objective || gameMap[player.getX()][player.getY() + 2] == Cells.SteppedObjective));
+        return isPath(gameMap[player.getX()][player.getY() + 1])
+                || (isBoxAndObjective(gameMap[player.getX()][player.getY() + 1]) && (isPath(gameMap[player.getX()][player.getY() + 2]) || isObjective(gameMap[player.getX()][player.getY() + 2])));
     }
 
     public boolean canMoveUp() {
-        return gameMap[player.getX() - 1][player.getY()] == null
-                || ((gameMap[player.getX() - 1][player.getY()] == Cells.Box || gameMap[player.getX() - 1][player.getY()] == Cells.SteppedObjective ) && (gameMap[player.getX() - 2][player.getY()] == null || gameMap[player.getX() - 2][player.getY()] == Cells.Objective || gameMap[player.getX() - 2][player.getY()] == Cells.SteppedObjective));
+        return isPath(gameMap[player.getX() - 1][player.getY()])
+                || (isBoxAndObjective(gameMap[player.getX() - 1][player.getY()]) && (isPath(gameMap[player.getX() - 2][player.getY()]) || isObjective(gameMap[player.getX() - 2][player.getY()])));
     }
 
     public boolean canMoveDown() {
-        return gameMap[player.getX() + 1][player.getY()] == null
-                || ((gameMap[player.getX() + 1][player.getY()] == Cells.Box || gameMap[player.getX() + 1][player.getY()] == Cells.SteppedObjective) && (gameMap[player.getX() + 2][player.getY()] == null || gameMap[player.getX() + 2][player.getY()] == Cells.Objective || gameMap[player.getX() + 2][player.getY()] == Cells.SteppedObjective));
+        return isPath(gameMap[player.getX() + 1][player.getY()])
+                || (isBoxAndObjective(gameMap[player.getX() + 1][player.getY()]) && (isPath(gameMap[player.getX() + 2][player.getY()]) || isObjective(gameMap[player.getX() + 2][player.getY()])));
     }
 
     public Snapshot moveLeft() {
-        if( this.canMoveLeft() ) {
+        if( canMoveLeft() ) {
             Pair playerAux = new Pair(player.getX(), player.getY()-1);
-            if( gameMap[player.getX()][player.getY() - 1] == Cells.Box || gameMap[player.getX()][player.getY() - 1] == Cells.SteppedObjective ){
+            if( isBoxAndObjective(gameMap[player.getX()][player.getY() - 1]) ){
                 List<Pair> boxesAux = new LinkedList<>(boxesPositions);
                 boxesAux.remove(new Pair(player.getX(), player.getY()-1));
                 boxesAux.add(new Pair(player.getX(), player.getY()-2));
-                return this.snapshot();
+                return new Sokoban(wallsPositions, boxesAux, objectivesPositions, playerAux, gameMap.length, maxYLength(), Directions.Left, true).snapshot();
             }
-            return this.snapshot();
+            return new Sokoban(wallsPositions, boxesPositions, objectivesPositions, playerAux, gameMap.length, maxYLength(), Directions.Left, false).snapshot();
         }
         return this.snapshot();
     }
 
     public Snapshot moveRight() {
-        if( this.canMoveRight() ) {
+        if( canMoveRight() ) {
             Pair playerAux = new Pair(player.getX(), player.getY()+1);
-            if( gameMap[player.getX()][player.getY() + 1] == Cells.Box || gameMap[player.getX()][player.getY() + 1] == Cells.SteppedObjective ){
+            if( isBoxAndObjective(gameMap[player.getX()][player.getY() + 1]) ){
                 List<Pair> boxesAux = new LinkedList<>(boxesPositions);
                 boxesAux.remove(new Pair(player.getX(), player.getY()+1));
                 boxesAux.add(new Pair(player.getX(), player.getY()+2));
-                return this.snapshot();
+                return new Sokoban(wallsPositions, boxesAux, objectivesPositions, playerAux, gameMap.length, maxYLength(), Directions.Right, true).snapshot();
             }
-            return this.snapshot();
+            return new Sokoban(wallsPositions, boxesPositions, objectivesPositions, playerAux, gameMap.length, maxYLength(), Directions.Right, false).snapshot();
+        }
+        return this.snapshot();
+    }
+
+
+    public Snapshot moveUp() {
+        if( this.canMoveUp() ) {
+            Pair playerAux = new Pair(player.getX()-1, player.getY());
+            if( isBoxAndObjective(gameMap[player.getX() - 1][player.getY()]) ){
+                List<Pair> boxesAux = new LinkedList<>(boxesPositions);
+                boxesAux.remove(new Pair(player.getX()-1, player.getY()));
+                boxesAux.add(new Pair(player.getX()-2, player.getY()));
+                return new Sokoban(wallsPositions, boxesAux, objectivesPositions, playerAux, gameMap.length, maxYLength(), Directions.Up, true).snapshot();
+            }
+            return new Sokoban(wallsPositions, boxesPositions, objectivesPositions, playerAux, gameMap.length, maxYLength(), Directions.Up, false).snapshot();
+        }
+        return this.snapshot();
+    }
+
+    public Snapshot moveDown() {
+        if( this.canMoveDown() ) {
+            Pair playerAux = new Pair(player.getX()+1, player.getY());
+            if( isBoxAndObjective(gameMap[player.getX() + 1][player.getY()]) ){
+                List<Pair> boxesAux = new LinkedList<>(boxesPositions);
+                boxesAux.remove(new Pair(player.getX()+1, player.getY()));
+                boxesAux.add(new Pair(player.getX()+2, player.getY()));
+                return new Sokoban(wallsPositions, boxesAux, objectivesPositions, playerAux, gameMap.length, maxYLength(), Directions.Down, true).snapshot();
+            }
+            return new Sokoban(wallsPositions, boxesPositions, objectivesPositions, playerAux, gameMap.length, maxYLength(), Directions.Down, false).snapshot();
         }
         return this.snapshot();
     }
@@ -227,35 +323,7 @@ public class Sokoban {
 
         return moves;
     }
-
-    public Snapshot moveUp() {
-        if( this.canMoveUp() ) {
-            Pair playerAux = new Pair(player.getX()-1, player.getY());
-            if( gameMap[player.getX() - 1][player.getY()] == Cells.Box || gameMap[player.getX() - 1][player.getY()] == Cells.SteppedObjective ){
-                List<Pair> boxesAux = new LinkedList<>(boxesPositions);
-                boxesAux.remove(new Pair(player.getX()-1, player.getY()));
-                boxesAux.add(new Pair(player.getX()-2, player.getY()));
-                return this.snapshot();
-            }
-            return this.snapshot();
-        }
-        return this.snapshot();
-    }
-
-    public Snapshot moveDown() {
-        if( this.canMoveDown() ) {
-            Pair playerAux = new Pair(player.getX()+1, player.getY());
-            if( gameMap[player.getX() + 1][player.getY()] == Cells.Box || gameMap[player.getX() + 1][player.getY()] == Cells.SteppedObjective ){
-                List<Pair> boxesAux = new LinkedList<>(boxesPositions);
-                boxesAux.remove(new Pair(player.getX()+1, player.getY()));
-                boxesAux.add(new Pair(player.getX()+2, player.getY()));
-                return this.snapshot();
-            }
-            return this.snapshot();
-        }
-        return this.snapshot();
-    }
-
+    
     public Pair getPlayer() {
         return player;
     }
@@ -281,8 +349,11 @@ public class Sokoban {
                         case Objective:
                             System.out.print('.');
                             break;
-                        case SteppedObjective:
+                        case BoxOnObjective:
                             System.out.print('o');
+                            break;
+                        case PlayerOnObjective:
+                            System.out.println('+');
                             break;
                         default:
                             System.out.print('#');
@@ -321,87 +392,13 @@ public class Sokoban {
         return result;
     }
 
-//    private Sokoban(List<Pair> boxes, Pair player, Directions direction, boolean movedBox) {
-//        gameMap = new Cells[x][y];
-//        this.player = player;
-//        System.out.println(player);
-//        gameMap[player.getX()][player.getY()] = Cells.Player;
-//        steppedObjectives = 0;
-//        this.direction = direction;
-//
-//        this.boxesPositions = boxes;
-//        boxes.forEach((box) -> {
-//            gameMap[box.getX()][box.getY()] = Cells.Box;
-//        });
-//
-//        if(boxesPositions.contains(new Pair(1, 1))) {
-//            gameMap[1][1] = Cells.SteppedObjective;
-//            steppedObjectives++;
-//        } else {
-//            gameMap[1][1] = Cells.Objective;
-//        }
-//        if(boxesPositions.contains(new Pair(1, y-2))) {
-//            gameMap[1][y-2] = Cells.SteppedObjective;
-//            steppedObjectives++;
-//        } else {
-//            gameMap[1][y-2] = Cells.Objective;
-//        }
-////        if(boxesPositions.contains(new Pair(x-2, 1))) {
-////            gameMap[x-2][1] = Cells.SteppedObjective;
-////            steppedObjectives++;
-////        } else {
-////            gameMap[x-2][1] = Cells.Objective;
-////        }
-////        if(boxesPositions.contains(new Pair(x-2, y-2))) {
-////            gameMap[x-2][y-2] = Cells.SteppedObjective;
-////            steppedObjectives++;
-////        } else {
-////            gameMap[x-2][y-2] = Cells.Objective;
-////        }
-//
-//        movingBox = movedBox;
-//
-//        for( int j = 0; j < y; j++) {
-//            gameMap[0][j] = Cells.Wall; gameMap[x-1][j] = Cells.Wall;
-//        }
-//        for( int i = 0; i < x; i++) {
-//            gameMap[i][0] = Cells.Wall; gameMap[i][y-1] = Cells.Wall;
-//        }
-//
-//    }
-//Sokoban() {
-//    gameMap = new Cells[x][y];
-//    player = new Pair(x/2, y/2);
-//    direction = null;
-//    movingBox = false;
-//
-//    gameMap[player.getX()][player.getY()] = Cells.Player;
-//
-//    boxesPositions = new LinkedList<>();
-//    wallsPositions = new LinkedList<>();
-//    objectivesPositions = new LinkedList<>();
-////        boxesPositions.add( new Pair(player.getX()+1, player.getY()+1));
-//    boxesPositions.add( new Pair(player.getX()-1, player.getY()+1));
-//    boxesPositions.add( new Pair(player.getX()-1, player.getY()-1));
-////        boxesPositions.add( new Pair(player.getX()+1, player.getY()-1));
-////        gameMap[player.getX()+1][player.getY()+1] = Cells.Box;
-//    gameMap[player.getX()-1][player.getY()+1] = Cells.Box;
-////        gameMap[player.getX()+1][player.getY()-1] = Cells.Box;
-//    gameMap[player.getX()-1][player.getY()-1] = Cells.Box;
-//
-//    gameMap[1][1] = Cells.Objective;
-//    gameMap[1][y-2] = Cells.Objective;
-////        gameMap[x-2][1] = Cells.Objective;
-////        gameMap[x-2][y-2] = Cells.Objective;
-//
-//    steppedObjectives = 0;
-//
-//    for( int j = 0; j < y; j++) {
-//        gameMap[0][j] = Cells.Wall; gameMap[x-1][j] = Cells.Wall;
-//    }
-//    for( int i = 0; i < x; i++) {
-//        gameMap[i][0] = Cells.Wall; gameMap[i][y-1] = Cells.Wall;
-//    }
-//
-//}
+    private int maxYLength() {
+        int max = gameMap[0].length;
+        for (Cells[] cells : gameMap) {
+            if (cells.length > max) {
+                max = cells.length;
+            }
+        }
+        return max;
+    }
 }

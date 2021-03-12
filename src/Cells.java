@@ -3,5 +3,6 @@ public enum Cells {
     Player,
     Box,
     Objective,
-    SteppedObjective;
+    PlayerOnObjective,
+    BoxOnObjective;
 }

@@ -18,7 +18,8 @@ public class Game {
                 {'#',null,'#','#',null,null,'#',null,'#',null,null,'#','#',null,'#'},
                 {'#',null,null,null,null,null,'$','@','$',null,null,null,null,null,'#'},
                 {'#','#','#','#',null,null,'#','#','#',null,null,'#','#','#','#'},
-                {'#','#','#','#',null,'#','#','#','#'}})};
+                {null,null,null,'#','#','#','#',null,'#','#','#','#'}})};
+        final Snapshot[] snapshot = new Snapshot[1];
         game[0].show();
         JFrame frame = new JFrame("Key Listener");
         Container contentPane = frame.getContentPane();
@@ -27,18 +28,19 @@ public class Game {
             public void keyTyped(KeyEvent e) {
                 switch (Character.toLowerCase(e.getKeyChar())) {
                     case 'a':
-                        game[0] = new Sokoban(game[0].moveLeft());
+                        snapshot[0] = game[0].moveLeft();
                         break;
                     case 'w':
-                        game[0] = new Sokoban(game[0].moveUp());
+                        snapshot[0] = game[0].moveUp();
                         break;
                     case 'd':
-                        game[0] = new Sokoban(game[0].moveRight());
+                        snapshot[0] = game[0].moveRight();
                         break;
                     case 's':
-                        game[0] = new Sokoban(game[0].moveDown());
+                        snapshot[0] = game[0].moveDown();
                         break;
                 }
+                game[0] = new Sokoban(snapshot[0]);
                 game[0].show();
                 if(game[0].isOver()) {
                     System.out.println("You Won!");
