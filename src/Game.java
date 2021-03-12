@@ -2,10 +2,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class Game {
     public static void main(String[] args) {
-        final Sokoban[] game = {new Sokoban()};
+        //SOKOBAN 1
+        final Sokoban[] game = {new Sokoban(new Character[][]{
+                {null,null,null,null,null,null,'#','#','#'},
+                {null,null,null,null,null,null,'#','.','#'},
+                {null,null,'#','#','#','#','#','.','#','#','#','#','#'},
+                {null,'#','#',null,null,null,null,null,null,null,null,null,'#','#'},
+                {'#','#',null,null,'#',null,'#',null,'#',null,'#',null,null,'#','#'},
+                {'#',null,null,'#','#',null,null,null,null,null,'#','#',null,null,'#'},
+                {'#',null,'#','#',null,null,'#',null,'#',null,null,'#','#',null,'#'},
+                {'#',null,null,null,null,null,'$','@','$',null,null,null,null,null,'#'},
+                {'#','#','#','#',null,null,'#','#','#',null,null,'#','#','#','#'},
+                {'#','#','#','#',null,'#','#','#','#'}})};
         game[0].show();
         JFrame frame = new JFrame("Key Listener");
         Container contentPane = frame.getContentPane();
@@ -14,16 +27,16 @@ public class Game {
             public void keyTyped(KeyEvent e) {
                 switch (Character.toLowerCase(e.getKeyChar())) {
                     case 'a':
-                        game[0] = game[0].moveLeft();
+                        game[0] = new Sokoban(game[0].moveLeft());
                         break;
                     case 'w':
-                        game[0] = game[0].moveUp();
+                        game[0] = new Sokoban(game[0].moveUp());
                         break;
                     case 'd':
-                        game[0] = game[0].moveRight();
+                        game[0] = new Sokoban(game[0].moveRight());
                         break;
                     case 's':
-                        game[0] = game[0].moveDown();
+                        game[0] = new Sokoban(game[0].moveDown());
                         break;
                 }
                 game[0].show();

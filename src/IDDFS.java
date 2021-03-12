@@ -7,7 +7,7 @@ public class IDDFS {
     private static final List<Node> visited = new LinkedList<>();
     private static boolean DLS( Node node, int limit ) {
 
-        if( node.getBoard().isOver() ) {
+        if( new Sokoban(node.getSnapshot()).isOver() ) {
             endNode = node;
             return true;
         }
@@ -16,19 +16,19 @@ public class IDDFS {
             return false;
         }
 
-        List<Sokoban> moves = node.getBoard().getPossibleMoves();
+        List<Snapshot> moves = new Sokoban(node.getSnapshot()).getPossibleMoves();
         List<Node> childNodes = new LinkedList<>();
         Node nodeAux;
-        for( Sokoban move: moves ){
+        for( Snapshot move: moves ){
             nodeAux = new Node(move, node, node.getDepth() + 1, new LinkedList<>(node.getPositions()), new LinkedList<>(node.getMovements()));
             nodeAux.getMovements().add(move.getDirection());
-            nodeAux.getPositions().add(move.getPlayer());
+            nodeAux.getPositions().add(new Sokoban(move).getPlayer());
             childNodes.add(nodeAux);
         }
 
 
         for (Node childNode : childNodes) {
-            if( !contains(visited, childNode) ) {
+            if( !contains(childNode) ) {
                 visited.add(childNode);
                 if( DLS(childNode, limit) ) {
                     return true;
@@ -46,12 +46,12 @@ public class IDDFS {
         int TILES = 7 - 2;
         int BOARD = TILES*TILES;
         int BOXES = 2;
-        int MAX_MOVEMENTS = 50;
+        int MAX_MOVEMENTS = 60;
         int LIMIT = 20;
         int limit = LIMIT;
         List<Pair> positions;
         List<Directions> movements;
-        Node startNode = new Node(game, null, 0, new LinkedList<>(), new LinkedList<>());
+        Node startNode = new Node(game.snapshot(), null, 0, new LinkedList<>(), new LinkedList<>());
 
         positions = new LinkedList<>();
         positions.add(game.getPlayer());
@@ -73,9 +73,9 @@ public class IDDFS {
         return null;
     }
 
-    private static boolean contains( Iterable<Node> nodeList, Node node ) {
-        for (Node nodeFromList : nodeList) {
-            if( nodeFromList.equalsNotDepth( node ) ) {
+    private static boolean contains(Node node) {
+        for (Node nodeFromList : IDDFS.visited) {
+            if( nodeFromList.equals( node ) ) {
                 return true;
             }
         }

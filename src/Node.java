@@ -1,16 +1,17 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 public class Node {
-    private Sokoban board;
+    private Snapshot snapshot;
     private Node parentNode;
     private int depth;
     private List<Directions> movements;
     private List<Pair> positions;
 
-    Node(Sokoban board, Node parentNode, int depth, List<Pair> positions, List<Directions> movements) {
-        this.board = board;
+    Node(Snapshot snapshot, Node parentNode, int depth, List<Pair> positions, List<Directions> movements) {
+        this.snapshot = snapshot;
         this.parentNode = parentNode;
         this.depth = depth;
         this.positions = positions;
@@ -18,15 +19,15 @@ public class Node {
     }
 
     Node( Node node ) {
-        this.board = node.board;
+        this.snapshot = node.snapshot;
         this.parentNode = node.parentNode;
         this.positions = node.positions;
         this.movements = node.movements;
         this.depth = node.depth;
     }
 
-    Node(Sokoban board, Node parentNode, int depth) {
-        this.board = board;
+    Node(Snapshot snapshot, Node parentNode, int depth) {
+        this.snapshot = snapshot;
         this.parentNode = parentNode;
         this.depth = depth;
     }
@@ -39,12 +40,12 @@ public class Node {
         this.movements = movements;
     }
 
-    public Sokoban getBoard() {
-        return board;
+    public Snapshot getSnapshot() {
+        return snapshot;
     }
 
-    public void setBoard(Sokoban board) {
-        this.board = board;
+    public void setSnapshot(Snapshot snapshot) {
+        this.snapshot = snapshot;
     }
 
     public Node getParentNode() {
@@ -76,22 +77,11 @@ public class Node {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
-        return depth == node.depth &&
-                board.equals(node.board) &&
-                Objects.equals(parentNode, node.parentNode) &&
-                Objects.equals(movements, node.movements) &&
-                Objects.equals(positions, node.positions);
-    }
-
-    public boolean equalsNotDepth( Object o ) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Node node = (Node) o;
-        return  board.equals(node.board);
+        return snapshot.equals(node.snapshot);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(board, parentNode, depth, movements, positions);
+        return Objects.hash(snapshot);
     }
 }

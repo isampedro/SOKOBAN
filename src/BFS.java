@@ -4,8 +4,8 @@ import java.util.Queue;
 
 public class BFS {
     public static Node solve(Sokoban game) {
-        int TILES = 7 - 2;
-        int BOARD = TILES*TILES;
+        int TILES_X = 10, TILES_Y = 15;
+        int BOARD = 60;
         int BOXES = 2;
         int MAX_MOVEMENTS = BOARD*BOXES;
 
@@ -14,7 +14,7 @@ public class BFS {
         positions.add(game.getPlayer());
         List<Directions> movements;
         Queue<Node> frontier = new LinkedList<>();
-        Node startNode = new Node(game, null, 0, new LinkedList<>(), new LinkedList<>());
+        Node startNode = new Node(game.snapshot(), null, 0, new LinkedList<>(), new LinkedList<>());
         startNode.setPositions(positions);
         startNode.setMovements(new LinkedList<>());
         frontier.offer(startNode);
@@ -22,16 +22,16 @@ public class BFS {
 
         while( !frontier.isEmpty() ) {
             aux = frontier.poll();
-            if( aux.getBoard().isOver() ) {
+            if( new Sokoban(aux.getSnapshot()).isOver() ) {
                 return aux;
             }
             if( aux.getMovements().size() <= MAX_MOVEMENTS) {
-                List<Sokoban> moves = aux.getBoard().getPossibleMoves();
-                for (Sokoban move : moves) {
+                List<Snapshot> moves = new Sokoban(aux.getSnapshot()).getPossibleMoves();
+                for (Snapshot move : moves) {
                     positions = new LinkedList<>(aux.getPositions());
                     movements = new LinkedList<>(aux.getMovements());
-                    if( !positions.contains(move.getPlayer())) {
-                        positions.add(move.getPlayer());
+                    if( !positions.contains(new Sokoban(move).getPlayer())) {
+                        positions.add(new Sokoban(move).getPlayer());
                         if( move.isMovingBox() ) {
                             positions = new LinkedList<>();
                         }
