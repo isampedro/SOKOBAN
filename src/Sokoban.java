@@ -235,17 +235,17 @@ public class Sokoban {
     }
     
     public boolean canMoveRight() {
-        return isPath(gameMap[player.getX()][player.getY() + 1])
+        return isPath(gameMap[player.getX()][player.getY() + 1]) || isObjective(gameMap[player.getX()][player.getY() + 1])
                 || (isBoxAndObjective(gameMap[player.getX()][player.getY() + 1]) && (isPath(gameMap[player.getX()][player.getY() + 2]) || isObjective(gameMap[player.getX()][player.getY() + 2])));
     }
 
     public boolean canMoveUp() {
-        return isPath(gameMap[player.getX() - 1][player.getY()])
+        return isPath(gameMap[player.getX() - 1][player.getY()]) || isObjective(gameMap[player.getX() - 1][player.getY()])
                 || (isBoxAndObjective(gameMap[player.getX() - 1][player.getY()]) && (isPath(gameMap[player.getX() - 2][player.getY()]) || isObjective(gameMap[player.getX() - 2][player.getY()])));
     }
 
     public boolean canMoveDown() {
-        return isPath(gameMap[player.getX() + 1][player.getY()])
+        return isPath(gameMap[player.getX() + 1][player.getY()]) || isObjective(gameMap[player.getX() + 1][player.getY()])
                 || (isBoxAndObjective(gameMap[player.getX() + 1][player.getY()]) && (isPath(gameMap[player.getX() + 2][player.getY()]) || isObjective(gameMap[player.getX() + 2][player.getY()])));
     }
 
