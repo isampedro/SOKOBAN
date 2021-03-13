@@ -9,16 +9,19 @@ public class Game {
     public static void main(String[] args) {
         //SOKOBAN 1
         final Sokoban[] game = {new Sokoban(new Character[][]{
-                {null,null,null,null,null,null,'#','#','#'},
-                {null,null,null,null,null,null,'#','.','#'},
-                {null,null,'#','#','#','#','#','.','#','#','#','#','#'},
-                {null,'#','#',null,null,null,null,null,null,null,null,null,'#','#'},
-                {'#','#',null,null,'#',null,'#',null,'#',null,'#',null,null,'#','#'},
-                {'#',null,null,'#','#',null,null,null,null,null,'#','#',null,null,'#'},
-                {'#',null,'#','#',null,null,'#',null,'#',null,null,'#','#',null,'#'},
-                {'#',null,null,null,null,null,'$','@','$',null,null,null,null,null,'#'},
-                {'#','#','#','#',null,null,'#','#','#',null,null,'#','#','#','#'},
-                {null,null,null,'#','#','#','#',null,'#','#','#','#'}})};
+                        {null, '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', null},
+                        {'#', '#', null, null, null, null, null, null, null, null, null, '#', '#'},
+                        {'#', null, null, '$', null, null, null, null, null, '$', null, null, '#'},
+                        {'#', null, '$', '#', null, '#', '.', '#', null, '#', '$', null, '#'},
+                        {'#', null, null, null, null, '#', 'o', '#', null, null, null, null, '#', '#', '#', '#', '#'},
+                        {'#', null, null, '#', '#', '#', '.', '#', '#', '#', null, null, '#', null, null, null, '#'},
+                        {'#', null, null, '.', '*', '.', '@', '.', '*', '.', null, null, null, null, null, null, '#'},
+                        {'#', null, null, '#', '#', '#', '.', '#', '#', '#', null, null, '#', null, null, null, '#'},
+                        {'#', null, null, null, null, '#', '*', '#', null, null, null, null, '#', '#', '#', '#', '#'},
+                        {'#', null, '$', '#', null, '#', '.', '#', null, '#', '$', null, '#'},
+                        {'#', null, null, '$', null, null, null, null, null, '$', null, null, '#'},
+                        {'#', '#', null, null, null, null, null, null, null, null, null, '#', '#'},
+                        {null, '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', null}})};
         final Snapshot[] snapshot = new Snapshot[1];
         game[0].show();
         JFrame frame = new JFrame("Key Listener");
