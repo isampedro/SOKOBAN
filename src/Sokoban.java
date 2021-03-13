@@ -380,7 +380,6 @@ public class Sokoban {
         if (o == null || getClass() != o.getClass()) return false;
         Sokoban sokoban = (Sokoban) o;
         return  steppedObjectives == sokoban.steppedObjectives &&
-                movingBox == sokoban.movingBox &&
                 Objects.equals(player, sokoban.player) &&
                 Objects.equals(boxesPositions, sokoban.boxesPositions);
     }
