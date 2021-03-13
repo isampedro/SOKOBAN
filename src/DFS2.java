@@ -3,18 +3,15 @@ import java.util.*;
 public class DFS2 {
     public static Node solve(Sokoban game) {
         int TILES_X = 15,TILES_Y = 10;
-        int BOARD = 60;
+        int BOARD = TILES_X*TILES_Y;
         int BOXES = 2;
         int MAX_MOVEMENTS = BOARD*BOXES;
 
         Set<Node> visitedNodes = new HashSet<>();
         Stack<Node> frontierNodes = new Stack<>();
-        Node startNode = new Node(game.snapshot(), null, 0, new LinkedList<>(), new LinkedList<>());
-        startNode.setMovements(new LinkedList<>());
+        Node startNode = new Node(game.snapshot(), null, 0, null, null);
         frontierNodes.push(startNode);
         Node aux = null;
-        List<Directions> movements;
-        Stack<Node> finishedNodes = new Stack<>();
 
         while( !frontierNodes.isEmpty() ) {
             aux = frontierNodes.pop();
@@ -22,22 +19,17 @@ public class DFS2 {
             if( new Sokoban(aux.getSnapshot()).isOver() ) {
                 return aux;
             }
-            if( aux.getMovements().size() <= MAX_MOVEMENTS) {
+            if( aux.getDepth() <= MAX_MOVEMENTS) {
                 List<Snapshot> moves = new Sokoban(aux.getSnapshot()).getPossibleMoves();
-                List<Node> childNodes = new LinkedList<>();
                 for (Snapshot move : moves) {
-                    movements = new LinkedList<>(aux.getMovements());
-                    movements.add(move.getDirection());
-                    childNodes.add(new Node(move, aux, aux.getDepth() + 1, null, movements));
-                }
-                for (Node childNode : childNodes) {
-                    if( !contains(visitedNodes, childNode) && !contains(frontierNodes, childNode)) {
-                        frontierNodes.push(childNode);
+                    startNode = new Node(move, aux, aux.getDepth() + 1, null, null);
+                    if( !contains(visitedNodes, startNode) && !contains(frontierNodes, startNode)) {
+                        frontierNodes.push(startNode);
                     }
                 }
             }
         }
-        return aux;
+        return null;
     }
 
     private static boolean contains( Iterable<Node> nodeList, Node node ) {

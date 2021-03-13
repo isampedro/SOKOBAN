@@ -230,7 +230,7 @@ public class Sokoban {
     }
 
     public boolean canMoveLeft() {
-        return isPath(gameMap[player.getX()][player.getY() - 1]) 
+        return isPath(gameMap[player.getX()][player.getY() - 1]) || isObjective(gameMap[player.getX()][player.getY() - 1])
                 || (isBoxAndObjective(gameMap[player.getX()][player.getY() - 1]) && (isPath(gameMap[player.getX()][player.getY() - 2]) || isObjective(gameMap[player.getX()][player.getY() - 2])));
     }
     
