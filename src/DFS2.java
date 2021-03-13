@@ -9,7 +9,7 @@ public class DFS2 {
 
         Set<Node> visitedNodes = new HashSet<>();
         Stack<Node> frontierNodes = new Stack<>();
-        Node startNode = new Node(game.snapshot(), null, 0, null, null);
+        Node startNode = new Node(game.snapshot(), null, 0);
         frontierNodes.push(startNode);
         Node aux = null;
 
@@ -22,7 +22,7 @@ public class DFS2 {
             if( aux.getDepth() <= MAX_MOVEMENTS) {
                 List<Snapshot> moves = new Sokoban(aux.getSnapshot()).getPossibleMoves();
                 for (Snapshot move : moves) {
-                    startNode = new Node(move, aux, aux.getDepth() + 1, null, null);
+                    startNode = new Node(move, aux, aux.getDepth() + 1);
                     if( !contains(visitedNodes, startNode) && !contains(frontierNodes, startNode)) {
                         frontierNodes.push(startNode);
                     }
