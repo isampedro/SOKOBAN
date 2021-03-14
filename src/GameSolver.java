@@ -6,16 +6,14 @@ import java.util.LinkedList;
 public class GameSolver {
     public static void main(String[] args) {
         Boards gameBoard = new Boards();
-        final Sokoban game = new Sokoban(gameBoard.getBoard2());
+        final Sokoban game = new Sokoban(gameBoard.getBoard1());
         game.show();
-        Node start = new Node(game.snapshot(), null, 0);
-        start.setMovements(new LinkedList<>());
         Node solution;
         Instant starts = Instant.now();
-//        solution = DFS.solve(start);
 //        solution = BFS.solve(game);
-    //    solution = IDDFS.solve(game);
-        solution = DFS2.solve(game);
+//        solution = IDDFS.solve(game);
+//        solution = DFS2.solve(game);
+          solution = AStar.solve(game);
         Instant ends = Instant.now();
         long seconds = Duration.between(starts, ends).getSeconds()%60;
         long minutes = (Duration.between(starts, ends).getSeconds()/60)%60;

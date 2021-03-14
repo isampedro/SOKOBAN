@@ -400,4 +400,8 @@ public class Sokoban {
         }
         return max;
     }
+
+    public List<Pair> getObjectivesPositions() {
+        return objectivesPositions;
+    }
 }

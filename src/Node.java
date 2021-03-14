@@ -9,6 +9,15 @@ public class Node {
     private int depth;
     private List<Directions> movements;
     private List<Pair> positions;
+    private Heuristic heuristic;
+
+    Node(Snapshot snapshot, Node parentNode, int depth, List<Directions> movements, Heuristic heuristic) {
+        this.snapshot = snapshot;
+        this.parentNode = parentNode;
+        this.depth = depth;
+        this.movements = movements;
+        this.heuristic = heuristic;
+    }
 
     Node(Snapshot snapshot, Node parentNode, int depth, List<Pair> positions, List<Directions> movements) {
         this.snapshot = snapshot;
@@ -70,6 +79,10 @@ public class Node {
 
     public void setDepth(int depth) {
         this.depth = depth;
+    }
+
+    public int evaluate() {
+        return heuristic.evaluate(snapshot);
     }
 
     @Override
