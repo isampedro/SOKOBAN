@@ -7,21 +7,33 @@ public class GameSolver {
     public static void main(String[] args) {
         Boards gameBoard = new Boards();
         final Sokoban game = new Sokoban(gameBoard.getBoard1());
+        System.out.println("Board:");
         game.show();
         Node solution;
         Instant starts = Instant.now();
+//        System.out.println("Searching with BFS:");
 //        solution = BFS.solve(game);
+//        System.out.println("Searching with BFS:");
 //        solution = IDDFS.solve(game);
+//        System.out.println("Searching with BFS:");
 //        solution = DFS2.solve(game);
-          solution = AStar.solve(game);
+        System.out.println("Searching with A* and Manhattan Distance Box-Objective:");
+        solution = AStar.solve(game, new ManhattanDistance());
+//        System.out.println("Searching with A* and Manhattan Distance Player-Box:");
+//        solution = AStar.solve(game, new ManhattanDistancePBO());
+//        System.out.println("Searching with A* and CorneredBox (dead end):");
+//        solution = AStar.solve(game, new CorneredBox());
+//        System.out.println("Searching with A* and Trivial heuristic:");
+//        solution = AStar.solve(game, new TrivialHeuristic());
         Instant ends = Instant.now();
         long seconds = Duration.between(starts, ends).getSeconds()%60;
         long minutes = (Duration.between(starts, ends).getSeconds()/60)%60;
         long hours = (Duration.between(starts, ends).getSeconds()/(60*60))%24;
-        System.out.println(hours + ":" + minutes + ":" + seconds + "." + (Duration.between(starts, ends).toMillis()%1000 ));
+        System.out.println("Elapsed time: " + hours + ":" + minutes + ":" + seconds + "." + (Duration.between(starts, ends).toMillis()%1000 ));
         if( solution != null && new Sokoban(solution.getSnapshot()).isOver() ) {
+            System.out.println("Finished Board:");
             new Sokoban(solution.getSnapshot()).show();
-            System.out.println(solution.getDepth());
+            System.out.println("Steps count: " + solution.getDepth());
 
         }
     }

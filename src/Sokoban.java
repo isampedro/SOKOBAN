@@ -404,4 +404,21 @@ public class Sokoban {
     public List<Pair> getObjectivesPositions() {
         return objectivesPositions;
     }
+
+    public List<Pair> getSurroundingWalls( Pair cell ) {
+        List<Pair> walls = new LinkedList<>();
+        if (gameMap[cell.getX() - 1][cell.getY()] == Cells.Wall) {
+            walls.add(new Pair(cell.getX() - 1, cell.getY()));
+        }
+        if (gameMap[cell.getX() + 1][cell.getY()] == Cells.Wall) {
+            walls.add(new Pair(cell.getX() + 1, cell.getY()));
+        }
+        if (gameMap[cell.getX()][cell.getY() - 1] == Cells.Wall) {
+            walls.add(new Pair(cell.getX(), cell.getY() - 1));
+        }
+        if (gameMap[cell.getX()][cell.getY() + 1] == Cells.Wall) {
+            walls.add(new Pair(cell.getX(), cell.getY() + 1));
+        }
+        return walls;
+    }
 }
