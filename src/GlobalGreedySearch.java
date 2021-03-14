@@ -1,21 +1,13 @@
 import java.util.*;
 
-public class AStar {
-
+public class GlobalGreedySearch {
     public static Node solve(Sokoban game, Heuristic heuristic) {
         int TILES_X = 10, TILES_Y = 15;
         int BOARD = TILES_X*TILES_Y;
         int BOXES = 2;
         int MAX_MOVEMENTS = BOARD*BOXES;
 
-        PriorityQueue<Node> frontierNodes = new PriorityQueue<>((n1, n2) -> {
-            int ans = n1.evaluate() + n1.getDepth() - n2.evaluate() - n2.getDepth();
-            if( ans == 0 ) {
-                return n1.evaluate() - n2.evaluate();
-            } else {
-                return ans;
-            }
-        });
+        PriorityQueue<Node> frontierNodes = new PriorityQueue<>(Comparator.comparingInt(Node::evaluate));
         Set<Node> visitedNodes = new HashSet<>();
         List<Directions> movements;
         Node currentNode, childNode;
@@ -54,5 +46,4 @@ public class AStar {
         }
         return false;
     }
-
 }

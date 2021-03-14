@@ -2,13 +2,16 @@ public class ManhattanDistancePBO implements Heuristic{
     @Override
     public int evaluate(Snapshot gamePhoto) {
         Sokoban game = new Sokoban(gamePhoto);
+        Pair player = game.getPlayer();
         int total = 0, min, aux;
         for (Pair box : game.getBoxesPositions()) {
             min = Integer.MAX_VALUE;
             for (Pair objective : game.getObjectivesPositions()) {
-                aux = manhattanDistance(box, objective) + manhattanDistance(box, game.getPlayer());
-                if (aux < min) {
-                    min = aux;
+                if( !objective.equals(box) ) {
+                    aux = manhattanDistance(box, objective) + manhattanDistance(box, player);
+                    if (aux < min) {
+                        min = aux;
+                    }
                 }
             }
             total += min;
