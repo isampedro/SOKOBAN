@@ -1,80 +1,58 @@
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class IDDFS {
-    private static  Node endNode;
-    private static final List<Node> visited = new LinkedList<>();
-    private static boolean DLS( Node node, int limit ) {
-
-        if( new Sokoban(node.getSnapshot()).isOver() ) {
-            endNode = node;
-            return true;
-        }
-
-        if( node.getDepth() == limit ) {
-            return false;
-        }
-
-        List<Snapshot> moves = new Sokoban(node.getSnapshot()).getPossibleMoves();
-        List<Node> childNodes = new LinkedList<>();
-        Node nodeAux;
-        for( Snapshot move: moves ){
-            nodeAux = new Node(move, node, node.getDepth() + 1, new LinkedList<>(node.getPositions()), new LinkedList<>(node.getMovements()));
-            nodeAux.getMovements().add(move.getDirection());
-            nodeAux.getPositions().add(new Sokoban(move).getPlayer());
-            childNodes.add(nodeAux);
-        }
+    private static boolean DLS( int limit ) {
 
 
-        for (Node childNode : childNodes) {
-            if( !contains(childNode) ) {
-                visited.add(childNode);
-                if( DLS(childNode, limit) ) {
-                    return true;
-                } else {
-                    visited.remove(childNode);
-                }
-            }
-        }
-
-        return false;
+        return DLS(limit);
     }
 
 
     public static Node solve(Sokoban game) {
-        int TILES = 7 - 2;
-        int BOARD = TILES*TILES;
+        int TILES_X = 10, TILES_Y = 15;
+        int BOARD = TILES_X*TILES_Y;
         int BOXES = 2;
-        int MAX_MOVEMENTS = 60;
-        int LIMIT = 20;
-        int limit = LIMIT;
-        List<Pair> positions;
+        int MAX_MOVEMENTS = BOARD*BOXES;
+        int LIMIT = 80;
+        int limit;
+
         List<Directions> movements;
-        Node startNode = new Node(game.snapshot(), null, 0, new LinkedList<>(), new LinkedList<>());
-
-        positions = new LinkedList<>();
-        positions.add(game.getPlayer());
-        startNode.setPositions(positions);
-        startNode.setMovements(new LinkedList<>());
-
-        Queue<Node> frontier = new LinkedList<>();
+        Node startNode = new Node(game.snapshot(), null, 0, null, new LinkedList<>());
+        Node nodeAux;
+        List<Snapshot> moves;
+        Set<Node> visited = new HashSet<>();
+        Stack<Node> frontier = new Stack<>();
 
 
-        frontier.offer(startNode);
-        Node aux = null;
+        for( limit = 0; limit <= MAX_MOVEMENTS; limit += LIMIT) {
+            frontier.push(startNode);
 
-        for( limit = 0; limit < MAX_MOVEMENTS; limit ++) {
-            boolean isOver = DLS(startNode, limit);
-            if( isOver ) {
-                return endNode;
+            while(!frontier.isEmpty()) {
+                startNode = frontier.pop();
+                visited.add(startNode);
+                if( new Sokoban(startNode.getSnapshot()).isOver() ) {
+                    return startNode;
+                }
+                if( startNode.getDepth() <= limit ) {
+                    moves = new Sokoban(startNode.getSnapshot()).getPossibleMoves();
+                    for( Snapshot move: moves ){
+                        movements = new LinkedList<>(startNode.getMovements());
+                        movements.add(move.getDirection());
+                        nodeAux = new Node(move, startNode, startNode.getDepth() + 1, null, movements);
+                        if( !contains(nodeAux, visited) && !contains(nodeAux, frontier)) {
+                            frontier.push(nodeAux);
+                        }
+                    }
+                }
             }
+
+            visited.clear();
         }
         return null;
     }
 
-    private static boolean contains(Node node) {
-        for (Node nodeFromList : IDDFS.visited) {
+    private static boolean contains(Node node, Iterable<Node> nodeIterable) {
+        for (Node nodeFromList : nodeIterable) {
             if( nodeFromList.equals( node ) ) {
                 return true;
             }
