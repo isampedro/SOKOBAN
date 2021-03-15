@@ -1,7 +1,5 @@
 public class Boards {
-
-
-    Character[][] boardTest = new Character[][]{
+    private Character[][] boardTest = new Character[][]{
                 {'#', '#', '#', '#', '#'},
                 {'#', '.', null, '.', '#'},
                 {'#', null, null, null, '#'},
@@ -9,7 +7,7 @@ public class Boards {
                 {'#', null, '@', null, '#'},
                 {'#', '#', '#', '#', '#'},};
 
-    Character[][] board1 = new Character[][]{
+    private Character[][] board1 = new Character[][]{
                 {null, null, null, null, null, null, '#', '#', '#'},
                 {null, null, null, null, null, null, '#', '.', '#'},
                 {null, null, '#', '#', '#', '#', '#', '.', '#', '#', '#', '#', '#'},
@@ -21,7 +19,7 @@ public class Boards {
                 {'#', '#', '#', '#', null, null, '#', '#', '#', null, null, '#', '#', '#', '#'},
                 {null, null, null, '#', '#', '#', '#', null, '#', '#', '#', '#'}};
 
-    Character[][] board2 = new Character[][]{
+    private Character[][] board2 = new Character[][]{
                 {null, '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', null},
                 {'#', '#', null, null, null, null, null, null, null, null, null, '#', '#'},
                 {'#', null, null, '$', null, null, null, null, null, '$', null, null, '#'},

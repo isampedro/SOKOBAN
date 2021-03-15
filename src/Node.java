@@ -90,11 +90,12 @@ public class Node {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
+
         return snapshot.equals(node.snapshot);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(snapshot);
+        return snapshot.hashCode();
     }
 }

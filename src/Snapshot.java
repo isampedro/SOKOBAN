@@ -24,16 +24,8 @@ public class Snapshot {
         return movingBox;
     }
 
-    public void setMovingBox(boolean movingBox) {
-        this.movingBox = movingBox;
-    }
-
     public Directions getDirection() {
         return direction;
-    }
-
-    public void setDirection(Directions direction) {
-        this.direction = direction;
     }
 
     @Override
@@ -41,13 +33,14 @@ public class Snapshot {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Snapshot snapshot = (Snapshot) o;
-        return new Sokoban(game).equals(new Sokoban(snapshot.game));
+        Sokoban gameThis = new Sokoban(game), gameThat = new Sokoban(snapshot.game);
+        return gameThis.getBoxesPositions().equals(gameThat.getBoxesPositions())
+                && gameThis.getPlayer().equals(gameThat.getPlayer());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(movingBox, direction);
-        result = 31 * result + Arrays.hashCode(game);
-        return result;
+        Sokoban gameThis = new Sokoban(game);
+        return 31*gameThis.getBoxesPositions().hashCode() + gameThis.getPlayer().hashCode();
     }
 }

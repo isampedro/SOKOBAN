@@ -1,30 +1,52 @@
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class DFS {
-
-    public static Node solve(Node current, List<Node> frontier, List<Node> visited) {
-        int TILES_X = 10, TILES_Y = 15;
+    public static Node solve(Sokoban game) {
+        int TILES_X = 15,TILES_Y = 10;
         int BOARD = TILES_X*TILES_Y;
         int BOXES = 2;
-        int MAX_MOVEMENTS = BOARD * BOXES;
-        Node currentChild;
+        int MAX_MOVEMENTS = BOARD*BOXES;
 
-        if( new Sokoban(current.getSnapshot()).isOver() ) {
-            return current;
-        }
+        Map<Snapshot, Integer> visitedNodes = new HashMap<>();
+        Stack<Node> frontierNodes = new Stack<>();
+        Node startNode = new Node(game.snapshot(), null, 0);
+        frontierNodes.push(startNode);
+        Node aux = null;
 
-        if( current.getDepth() < MAX_MOVEMENTS ) {
-            List<Snapshot> moves = new Sokoban(current.getSnapshot()).getPossibleMoves();
-            for (Snapshot move : moves) {
-                currentChild = new Node(move, current, current.getDepth()+1);
-                visited.add(currentChild);
-                currentChild = solve(currentChild, frontier, visited);
-                if( currentChild != null && new Sokoban(currentChild.getSnapshot()).isOver() ) {
-                    return currentChild;
+        while( !frontierNodes.isEmpty() ) {
+            aux = frontierNodes.pop();
+            visitedNodes.put(aux.getSnapshot(), aux.getDepth());
+            if( new Sokoban(aux.getSnapshot()).isOver() ) {
+                return aux;
+            }
+            if( aux.getDepth() <= MAX_MOVEMENTS) {
+                List<Snapshot> moves = new Sokoban(aux.getSnapshot()).getPossibleMoves();
+                for (Snapshot move : moves) {
+                    startNode = new Node(move, aux, aux.getDepth() + 1);
+                    if( !contains(startNode, visitedNodes) && !contains(frontierNodes, startNode)) {
+                        frontierNodes.push(startNode);
+                    }
                 }
             }
         }
         return null;
+    }
+
+    private static boolean contains( Iterable<Node> nodeList, Node node ) {
+        for (Node nodeFromList : nodeList) {
+            if( nodeFromList.equals( node ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean contains(Node node, Map<Snapshot, Integer> nodesIterable) {
+        Integer depth;
+        if( nodesIterable.containsKey(node.getSnapshot())) {
+            depth = nodesIterable.get(node.getSnapshot());
+            return node.getDepth() > depth;
+        }
+        return false;
     }
 }
