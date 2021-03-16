@@ -11,13 +11,13 @@ public class IDDFS {
         Node childNode;
         List<Snapshot> moves;
         Map<Snapshot, Integer> visited = new HashMap<>();
-        Stack<Node> frontier = new Stack<>();
+        Stack<Node> frontier = new Stack<>(), nextFrontier;
         rootNode = startNode;
         Sokoban start;
 
-
+        frontier.push(startNode);
         for( limit = 0; limit <= MAX_MOVEMENTS; limit += LIMIT) {
-            frontier.push(rootNode);
+            nextFrontier = new Stack<>();
             while(!frontier.isEmpty()) {
                 startNode = frontier.pop();
                 visited.put(startNode.getSnapshot(), startNode.getDepth());
@@ -35,9 +35,11 @@ public class IDDFS {
                             frontier.push(childNode);
                         }
                     }
+                } else {
+                    nextFrontier.push(startNode);
                 }
             }
-            visited.clear();
+            frontier = nextFrontier;
         }
         return null;
     }

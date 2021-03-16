@@ -16,7 +16,7 @@ public class AStar {
                 return ans;
             }
         });
-        Set<Node> visitedNodes = new HashSet<>();
+        Map<Snapshot, Integer> visited = new HashMap<>();
         List<Directions> movements;
         Node currentNode, childNode;
         Node startNode = new Node(game.snapshot(), null, 0,new LinkedList<>(), heuristic);
@@ -24,7 +24,7 @@ public class AStar {
 
         while( !frontierNodes.isEmpty() ) {
             currentNode = frontierNodes.poll();
-            visitedNodes.add(currentNode);
+            visited.put(currentNode.getSnapshot(), currentNode.getDepth());
 
             if( new Sokoban(currentNode.getSnapshot()).isOver() ) {
                 return currentNode;
@@ -36,7 +36,7 @@ public class AStar {
                     movements = new LinkedList<>(currentNode.getMovements());
                     movements.add(move.getDirection());
                     childNode = new Node(move, currentNode, currentNode.getDepth() + 1, movements, heuristic);
-                    if( !contains(frontierNodes, childNode) && !contains(visitedNodes, childNode) ) {
+                    if( !contains(frontierNodes, childNode) && !contains(childNode, visited) ) {
                         frontierNodes.offer(childNode);
                     }
                 }
@@ -51,6 +51,15 @@ public class AStar {
             if( nodeFromList.equals( node ) ) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    private static boolean contains(Node node, Map<Snapshot, Integer> nodesIterable) {
+        Integer depth;
+        if( nodesIterable.containsKey(node.getSnapshot())) {
+            depth = nodesIterable.get(node.getSnapshot());
+            return node.getDepth() > depth;
         }
         return false;
     }

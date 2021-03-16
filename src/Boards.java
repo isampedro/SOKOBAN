@@ -34,6 +34,25 @@ public class Boards {
                 {'#', '#', null, null, null, null, null, null, null, null, null, '#', '#'},
                 {null, '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', null}};
 
+    private Character[][] board3 = new Character[][]{
+            {null,null,'#','#','#','#','#',null,null},
+            {'#','#','#',null,null,'.','#',null,null},
+            {'#','.','@','$',null,null,'#','#',null},
+            {'#','#','#','#','#',null,null,'#','#'},
+            {'#','.',null,'.','#',null,'$',null,'#'},
+            {'#','$',null,'$','#',null,null,null,'#'},
+            {'#',null,null,null,null,null,null,null,'#'},
+            {'#','#','#','#','#','#','#','#','#'}
+    };
+
+    public Character[][] getBoard3() {
+        return board3;
+    }
+
+    public void setBoard3(Character[][] board3) {
+        this.board3 = board3;
+    }
+
     public Character[][] getBoardTest() {
         return boardTest;
     }
