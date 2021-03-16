@@ -25,14 +25,16 @@ public class GameSolver {
 //        solution = AStar.solve(game, new CorneredBox());
 //        System.out.println("Searching with A* and Trivial heuristic:");
 //        solution = AStar.solve(game, new TrivialHeuristic());
-        System.out.println("Searching with GGS and Manhattan Distance Box-Objective:");
-        solution = GlobalGreedySearch.solve(game, new ManhattanDistance());
+//        System.out.println("Searching with GGS and Manhattan Distance Box-Objective:");
+//        solution = GlobalGreedySearch.solve(game, new ManhattanDistance());
 //        System.out.println("Searching with GGS and Manhattan Distance Player-Box:");
 //        solution = GlobalGreedySearch.solve(game, new ManhattanDistancePBO());
 //        System.out.println("Searching with GGS and CorneredBox (dead end):");
 //        solution = GlobalGreedySearch.solve(game, new CorneredBox());
 //        System.out.println("Searching with GGS and Trivial heuristic:");
 //        solution = GlobalGreedySearch.solve(game, new TrivialHeuristic());
+        System.out.println("Searching with IDAStar and Manhattan Distance Box-Objective:");
+        solution = IDAStar.solve(game, new ManhattanDistance());
 
         Instant ends = Instant.now();
         long seconds = Duration.between(starts, ends).getSeconds()%60;

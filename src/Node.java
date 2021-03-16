@@ -19,6 +19,14 @@ public class Node {
         this.heuristic = heuristic;
     }
 
+    Node(Snapshot snapshot, Node parentNode, int depth, Heuristic heuristic) {
+        this.snapshot = snapshot;
+        this.parentNode = parentNode;
+        this.depth = depth;
+        this.heuristic = heuristic;
+    }
+
+
     Node(Snapshot snapshot, Node parentNode, int depth, List<Pair> positions, List<Directions> movements) {
         this.snapshot = snapshot;
         this.parentNode = parentNode;
