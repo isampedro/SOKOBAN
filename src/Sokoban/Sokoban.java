@@ -397,4 +397,29 @@ public class Sokoban {
         }
         return true;
     }
+
+    public boolean hasParallelWalls( Pair cell ) {
+        List<Directions> walls = getSurroundingElementsDirections(cell, Cells.Wall);
+        if( walls.contains(Directions.Left) && walls.contains(Directions.Right) ) {
+            return true;
+        }
+        return walls.contains(Directions.Up) && walls.contains(Directions.Down);
+    }
+
+    private List<Directions> getSurroundingElementsDirections( Pair cell, Cells element ) {
+        List<Directions> elements = new LinkedList<>();
+        if (gameMap[cell.getX() - 1][cell.getY()] == element) {
+            elements.add(Directions.Up);
+        }
+        if (gameMap[cell.getX() + 1][cell.getY()] == element) {
+            elements.add(Directions.Down);
+        }
+        if (gameMap[cell.getX()][cell.getY() - 1] == element) {
+            elements.add(Directions.Left);
+        }
+        if (gameMap[cell.getX()][cell.getY() + 1] == element) {
+            elements.add(Directions.Right);
+        }
+        return elements;
+    }
 }

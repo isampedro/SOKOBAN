@@ -23,7 +23,8 @@ public class TunnelDirection implements Heuristic{
     }
 
     private Directions getTunnelDirection(Sokoban game, Pair box ) {
-        if( game.getSurroundingPaths(box).size() == 1 && game.getSurroundingWalls(box).size() == 2 && game.isPlayerAround(box) ) {
+        if( game.getSurroundingPaths(box).size() == 1 && game.hasParallelWalls(box) && game.isPlayerAround(box) ) {
+
             return game.getPlayer().direction(box);
         }
         return null;
