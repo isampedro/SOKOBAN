@@ -6,7 +6,7 @@ import java.util.*;
 public class IDAStar {
     public static Node solve(Sokoban game, Heuristic heuristic, Pair boardDimensions, int boxes) {
         int MAX_MOVEMENTS = boardDimensions.getX()*boardDimensions.getY()*boxes;
-        Node childNode, rootNode, startNode = new Node(game.snapshot(), null, 0 , null, heuristic);
+        Node childNode, rootNode, startNode = new Node(game.snapshot(), null, 0, heuristic);
         Stack<Node> frontier = new Stack<>(), nextFrontier;
         Map<Snapshot, Integer> visited = new HashMap<>();
         rootNode = startNode;

@@ -19,7 +19,7 @@ public class AStar {
         Map<Snapshot, Integer> visited = new HashMap<>();
         List<Directions> movements;
         Node currentNode, childNode;
-        Node startNode = new Node(game.snapshot(), null, 0,new LinkedList<>(), heuristic);
+        Node startNode = new Node(game.snapshot(), null, 0, heuristic);
         frontierNodes.add(startNode);
 
         while( !frontierNodes.isEmpty() ) {
@@ -33,9 +33,7 @@ public class AStar {
             if( currentNode.getDepth() <= MAX_MOVEMENTS ) {
                 List<Snapshot> moves = new Sokoban(currentNode.getSnapshot()).getPossibleMoves();
                 for (Snapshot move : moves) {
-                    movements = new LinkedList<>(currentNode.getMovements());
-                    movements.add(move.getDirection());
-                    childNode = new Node(move, currentNode, currentNode.getDepth() + 1, movements, heuristic);
+                    childNode = new Node(move, currentNode, currentNode.getDepth() + 1, heuristic);
                     if( !contains(frontierNodes, childNode) && !contains(childNode, visited) ) {
                         frontierNodes.offer(childNode);
                     }

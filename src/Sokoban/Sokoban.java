@@ -366,19 +366,35 @@ public class Sokoban {
     }
 
     public List<Pair> getSurroundingWalls( Pair cell ) {
-        List<Pair> walls = new LinkedList<>();
-        if (gameMap[cell.getX() - 1][cell.getY()] == Cells.Wall) {
-            walls.add(new Pair(cell.getX() - 1, cell.getY()));
+        return getSurroundingElements(cell, Cells.Wall);
+    }
+
+    private List<Pair> getSurroundingElements( Pair cell, Cells element ) {
+        List<Pair> elements = new LinkedList<>();
+        if (gameMap[cell.getX() - 1][cell.getY()] == element) {
+            elements.add(new Pair(cell.getX() - 1, cell.getY()));
         }
-        if (gameMap[cell.getX() + 1][cell.getY()] == Cells.Wall) {
-            walls.add(new Pair(cell.getX() + 1, cell.getY()));
+        if (gameMap[cell.getX() + 1][cell.getY()] == element) {
+            elements.add(new Pair(cell.getX() + 1, cell.getY()));
         }
-        if (gameMap[cell.getX()][cell.getY() - 1] == Cells.Wall) {
-            walls.add(new Pair(cell.getX(), cell.getY() - 1));
+        if (gameMap[cell.getX()][cell.getY() - 1] == element) {
+            elements.add(new Pair(cell.getX(), cell.getY() - 1));
         }
-        if (gameMap[cell.getX()][cell.getY() + 1] == Cells.Wall) {
-            walls.add(new Pair(cell.getX(), cell.getY() + 1));
+        if (gameMap[cell.getX()][cell.getY() + 1] == element) {
+            elements.add(new Pair(cell.getX(), cell.getY() + 1));
         }
-        return walls;
+        return elements;
+    }
+
+    public List<Pair> getSurroundingPaths( Pair cell ) {
+        return getSurroundingElements(cell, null);
+    }
+
+    public boolean isPlayerAround( Pair cell ) {
+        List<Pair> playerPosition = getSurroundingElements(cell, Cells.Player);
+        if( playerPosition.isEmpty() ) {
+            return !getSurroundingElements(cell, Cells.PlayerOnObjective).isEmpty();
+        }
+        return true;
     }
 }

@@ -23,32 +23,33 @@ public class Boards {
     //DimX = 10, DimY = 15, Boxes = 2
 
     private Character[][] board2 = new Character[][]{
-                {null, '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', null},
-                {'#', '#', null, null, null, null, null, null, null, null, null, '#', '#'},
-                {'#', null, null, '$', null, null, null, null, null, '$', null, null, '#'},
-                {'#', null, '$', '#', null, '#', '.', '#', null, '#', '$', null, '#'},
-                {'#', null, null, null, null, '#', 'o', '#', null, null, null, null, '#', '#', '#', '#', '#'},
-                {'#', null, null, '#', '#', '#', '.', '#', '#', '#', null, null, '#', null, null, null, '#'},
-                {'#', null, null, '.', 'o', '.', '@', '.', 'o', '.', null, null, null, null, null, null, '#'},
-                {'#', null, null, '#', '#', '#', '.', '#', '#', '#', null, null, '#', null, null, null, '#'},
-                {'#', null, null, null, null, '#', 'o', '#', null, null, null, null, '#', '#', '#', '#', '#'},
-                {'#', null, '$', '#', null, '#', '.', '#', null, '#', '$', null, '#'},
-                {'#', null, null, '$', null, null, null, null, null, '$', null, null, '#'},
-                {'#', '#', null, null, null, null, null, null, null, null, null, '#', '#'},
-                {null, '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', null}};
-    //DimX = 13, DimY = 17, Boxes = 12
+            {null,null,null,null,null,'#','#','#','#','#'},
+            {null,null,null,null,null,'#',null,null,null,'#'},
+            {null,null,null,null,null,'#',null,null,null,'#'},
+            {'#','#','#','#',null,'#',null,null,null,'#'},
+            {'#',null,null,'#','#','#','#','$','#','#','#','#','#'},
+            {'#','.',null,null,null,null,null,null,null,null,null,null,'#'},
+            {'#',null,'.','#','#',null,'#',null,'#','#','.',null,'#'},
+            {'#',null,null,null,null,null,null,null,null,null,null,null,'#'},
+            {'#','#','#','#','#','$','#','#','#','#',null,null,'#'},
+            {null,null,'#',null,'$',null,null,'#',null,'#','#','#','#'},
+            {null,null,'#',null,null,'@',null,'#',null,null,null,null,null},
+            {null,null,'#',null,null,null,null,'#',null,null,null,null,null},
+            {null,null,'#','#','#','#','#','#',null,null,null,null,null}
+    };
+    //DimX = 13, DimY = 13, Boxes = 3
 
     private Character[][] board3 = new Character[][]{
-            {null,null,'#','#','#','#','#',null,null},
-            {'#','#','#',null,null,'.','#',null,null},
-            {'#','.','@','$',null,null,'#','#',null},
-            {'#','#','#','#','#',null,null,'#','#'},
-            {'#','.',null,'.','#',null,'$',null,'#'},
-            {'#','$',null,'$','#',null,null,null,'#'},
-            {'#',null,null,null,null,null,null,null,'#'},
-            {'#','#','#','#','#','#','#','#','#'}
+            {'#','#','#','#','#','#'},
+            {'#',null,null,null,null,'#'},
+            {'#',null,'$','$',null,'#','#'},
+            {'#',null,'$','.','.','.','#','#','#'},
+            {'#','#','#','.','.','.','$','@','#'},
+            {null,null,'#','#',null,'$','$',null,'#'},
+            {null,null,null,'#',null,null,null,null,'#'},
+            {null,null,null,'#','#','#','#','#','#'}
     };
-    //DimX = 8, DimY = 9, Boxes = 4
+    //DimX = 8, DimY = 9, Boxes = 6
 
     public Character[][] getBoard3() {
         return board3;

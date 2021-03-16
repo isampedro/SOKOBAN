@@ -4,13 +4,20 @@ import Sokoban.*;
 
 import java.util.List;
 
-public class CorneredBox implements Heuristic {
+public class CorneredBoxDeadlock implements Heuristic {
     @Override
     public int evaluate(Snapshot gamePhoto) {
         Sokoban game = new Sokoban(gamePhoto);
+        boolean isOnObjective;
         for (Pair box : game.getBoxesPositions()) {
             if( isCornered(game, box) ) {
-                return Integer.MAX_VALUE;
+                isOnObjective = false;
+                for( Pair objective: game.getObjectivesPositions() ) {
+                    isOnObjective |= objective.equals(box);
+                }
+                if( !isOnObjective ) {
+                    return Integer.MAX_VALUE;
+                }
             }
         }
 

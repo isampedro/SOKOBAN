@@ -6,11 +6,9 @@ public class BFS {
     public static Node solve(Sokoban game, Pair boardDimensions, int boxes) {
         int MAX_MOVEMENTS = boxes*boardDimensions.getY()* boardDimensions.getX();
 
-        List<Directions> movements;
         Map<Snapshot, Integer> visited = new HashMap<>();
         Queue<Node> frontier = new LinkedList<>();
-        Node startNode = new Node(game.snapshot(), null, 0, new LinkedList<>(), new LinkedList<>());
-        startNode.setMovements(new LinkedList<>());
+        Node startNode = new Node(game.snapshot(), null, 0);
         frontier.offer(startNode);
         Node aux;
 
@@ -20,12 +18,10 @@ public class BFS {
             if( new Sokoban(aux.getSnapshot()).isOver() ) {
                 return aux;
             }
-            if( aux.getMovements().size() <= MAX_MOVEMENTS) {
+            if( aux.getDepth() <= MAX_MOVEMENTS) {
                 List<Snapshot> moves = new Sokoban(aux.getSnapshot()).getPossibleMoves();
                 for (Snapshot move : moves) {
-                    movements = new LinkedList<>(aux.getMovements());
-                    movements.add(move.getDirection());
-                    startNode = new Node(move, aux, aux.getDepth() + 1, null, movements );
+                    startNode = new Node(move, aux, aux.getDepth() + 1);
                     if( !contains(startNode, visited) && !contains(frontier, startNode) ) {
                         frontier.offer(startNode);
                     }

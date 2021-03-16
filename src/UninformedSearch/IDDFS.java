@@ -8,8 +8,7 @@ public class IDDFS {
         int LIMIT = MAX_MOVEMENTS/10;
         int limit;
 
-        List<Directions> movements;
-        Node rootNode, startNode = new Node(game.snapshot(), null, 0, null, new LinkedList<>());
+        Node rootNode, startNode = new Node(game.snapshot(), null, 0);
         Node childNode;
         List<Snapshot> moves;
         Map<Snapshot, Integer> visited = new HashMap<>();
@@ -30,9 +29,7 @@ public class IDDFS {
                 if( startNode.getDepth() <= limit ) {
                     moves = start.getPossibleMoves();
                     for( Snapshot move: moves ){
-                        movements = new LinkedList<>(startNode.getMovements());
-                        movements.add(move.getDirection());
-                        childNode = new Node(move, startNode, startNode.getDepth() + 1, null, movements);
+                        childNode = new Node(move, startNode, startNode.getDepth() + 1);
                         if( !contains(childNode, visited) && !contains(frontier, childNode)) {
                             frontier.push(childNode);
                         }

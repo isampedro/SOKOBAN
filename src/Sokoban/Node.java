@@ -1,22 +1,11 @@
 package Sokoban;
-import java.util.List;
 import Heuristics.*;
 
 public class Node {
     private Snapshot snapshot;
     private Node parentNode;
     private int depth;
-    private List<Directions> movements;
-    private List<Pair> positions;
     private Heuristic heuristic;
-
-    public Node(Snapshot snapshot, Node parentNode, int depth, List<Directions> movements, Heuristic heuristic) {
-        this.snapshot = snapshot;
-        this.parentNode = parentNode;
-        this.depth = depth;
-        this.movements = movements;
-        this.heuristic = heuristic;
-    }
 
     public Node(Snapshot snapshot, Node parentNode, int depth, Heuristic heuristic) {
         this.snapshot = snapshot;
@@ -25,20 +14,9 @@ public class Node {
         this.heuristic = heuristic;
     }
 
-
-    public Node(Snapshot snapshot, Node parentNode, int depth, List<Pair> positions, List<Directions> movements) {
-        this.snapshot = snapshot;
-        this.parentNode = parentNode;
-        this.depth = depth;
-        this.positions = positions;
-        this.movements = movements;
-    }
-
     public Node( Node node ) {
         this.snapshot = node.snapshot;
         this.parentNode = node.parentNode;
-        this.positions = node.positions;
-        this.movements = node.movements;
         this.depth = node.depth;
     }
 
@@ -46,14 +24,6 @@ public class Node {
         this.snapshot = snapshot;
         this.parentNode = parentNode;
         this.depth = depth;
-    }
-
-    public List<Directions> getMovements() {
-        return movements;
-    }
-
-    public void setMovements(List<Directions> movements) {
-        this.movements = movements;
     }
 
     public Snapshot getSnapshot() {
@@ -74,14 +44,6 @@ public class Node {
 
     public int getDepth() {
         return depth;
-    }
-
-    public List<Pair> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(List<Pair> positions) {
-        this.positions = positions;
     }
 
     public void setDepth(int depth) {
