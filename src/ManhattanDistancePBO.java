@@ -1,24 +1,43 @@
+import java.util.List;
+
 public class ManhattanDistancePBO implements Heuristic{
     @Override
     public int evaluate(Snapshot gamePhoto) {
         Sokoban game = new Sokoban(gamePhoto);
         Pair player = game.getPlayer();
         int total = 0, min, aux;
+        List<Pair> gameObjectives = game.getObjectivesPositions();
+        int minPlayerBox = Integer.MAX_VALUE;
+        int minBoxGoal = Integer.MAX_VALUE;
+        Pair nearestBox = null;
+
         for (Pair box : game.getBoxesPositions()) {
-            min = Integer.MAX_VALUE;
-            for (Pair objective : game.getObjectivesPositions()) {
-                if( !objective.equals(box) ) {
-                    aux = manhattanDistance(box, objective) + manhattanDistance(box, player);
-                    if (aux < min) {
-                        min = aux;
-                    }
+            if (!gameObjectives.contains(box)) {
+                aux = manhattanDistance(player, box);
+                if (aux < minPlayerBox) {
+                    minPlayerBox = aux;
+                    nearestBox = box;
                 }
             }
-            total += min;
         }
 
-        return total;
+        if (nearestBox == null) {
+            return 0;
+        }
+
+        //Ahora enceuntro el objetivo más cercano (no ocupado) para nearestbox
+
+        for (Pair objective : game.getObjectivesPositions()) {
+            aux = manhattanDistance(nearestBox, objective);
+            if (aux < minBoxGoal) {
+                minBoxGoal = aux;
+            }
+        }
+
+        return minPlayerBox + minBoxGoal;
+
     }
+
 
     private int manhattanDistance(Pair box, Pair objective) {
         return Math.abs(box.getX() - objective.getX()) + Math.abs(box.getY() - objective.getY());

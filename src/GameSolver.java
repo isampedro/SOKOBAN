@@ -22,14 +22,14 @@ public class GameSolver {
 //        solution = DFS.solve(game, boardDimensions, boxes);
 //        System.out.println("Searching with A* and Manhattan Distance Box-Objective:");
 //        solution = AStar.solve(game, boardDimensions, boxes, manhattanDistance);
-//        System.out.println("Searching with A* and Manhattan Distance Player-Box:");
-//        solution = AStar.solve(game, boardDimensions, boxes, manhattanDistancePBO);
+        System.out.println("Searching with A* and Manhattan Distance Player-Box:");
+        solution = AStar.solve(game, boardDimensions, boxes, manhattanDistancePBO);
 //        System.out.println("Searching with A* and CorneredBox (dead end):");
 //        solution = AStar.solve(game, boardDimensions, boxes, corneredBox);
 //        System.out.println("Searching with A* and Trivial heuristic:");
 //        solution = AStar.solve(game, boardDimensions, boxes, trivialHeuristic);
-        System.out.println("Searching with GGS and Manhattan Distance Box-Objective:");
-        solution = GlobalGreedySearch.solve(game, boardDimensions, boxes, manhattanDistance);
+//        System.out.println("Searching with GGS and Manhattan Distance Box-Objective:");
+//        solution = GlobalGreedySearch.solve(game, boardDimensions, boxes, manhattanDistance);
 //        System.out.println("Searching with GGS and Manhattan Distance Player-Box:");
 //        solution = GlobalGreedySearch.solve(game, boardDimensions, boxes, manhattanDistancePBO);
 //        System.out.println("Searching with GGS and Cornered Box (dead end):");
