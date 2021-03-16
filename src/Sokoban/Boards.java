@@ -1,3 +1,4 @@
+package Sokoban;
 public class Boards {
     private Character[][] boardTest = new Character[][]{
                 {'#', '#', '#', '#', '#'},
@@ -6,6 +7,7 @@ public class Boards {
                 {'#', '$', null, '$', '#'},
                 {'#', null, '@', null, '#'},
                 {'#', '#', '#', '#', '#'},};
+    //DimX = 5, DimY = 6, Boxes = 2
 
     private Character[][] board1 = new Character[][]{
                 {null, null, null, null, null, null, '#', '#', '#'},
@@ -18,6 +20,7 @@ public class Boards {
                 {'#', null, null, null, null, null, '$', '@', '$', null, null, null, null, null, '#'},
                 {'#', '#', '#', '#', null, null, '#', '#', '#', null, null, '#', '#', '#', '#'},
                 {null, null, null, '#', '#', '#', '#', null, '#', '#', '#', '#'}};
+    //DimX = 10, DimY = 15, Boxes = 2
 
     private Character[][] board2 = new Character[][]{
                 {null, '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', null},
@@ -33,6 +36,7 @@ public class Boards {
                 {'#', null, null, '$', null, null, null, null, null, '$', null, null, '#'},
                 {'#', '#', null, null, null, null, null, null, null, null, null, '#', '#'},
                 {null, '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', null}};
+    //DimX = 13, DimY = 17, Boxes = 12
 
     private Character[][] board3 = new Character[][]{
             {null,null,'#','#','#','#','#',null,null},
@@ -44,6 +48,7 @@ public class Boards {
             {'#',null,null,null,null,null,null,null,'#'},
             {'#','#','#','#','#','#','#','#','#'}
     };
+    //DimX = 8, DimY = 9, Boxes = 4
 
     public Character[][] getBoard3() {
         return board3;

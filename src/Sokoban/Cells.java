@@ -1,3 +1,4 @@
+package Sokoban;
 public enum Cells {
     Wall,
     Player,

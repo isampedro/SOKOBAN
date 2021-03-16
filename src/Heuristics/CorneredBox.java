@@ -1,3 +1,7 @@
+package Heuristics;
+
+import Sokoban.*;
+
 import java.util.List;
 
 public class CorneredBox implements Heuristic {

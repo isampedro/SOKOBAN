@@ -1,11 +1,16 @@
+package Sokoban;
 import java.util.Objects;
 
 public class Pair {
     private Integer x, y;
 
-    Pair( int x, int y) {
+    public Pair(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Pair() {
+
     }
 
     public Integer getX() {

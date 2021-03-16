@@ -1,3 +1,6 @@
+package InformedSearch;
+import Heuristics.Heuristic;
+import Sokoban.*;
 import java.util.*;
 
 public class AStar {

@@ -1,9 +1,8 @@
+package Sokoban;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
-import java.util.LinkedList;
 
 public class Game {
     public static void main(String[] args) {

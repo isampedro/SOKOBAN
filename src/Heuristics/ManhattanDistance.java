@@ -1,4 +1,5 @@
-import java.util.List;
+package Heuristics;
+import Sokoban.*;
 
 public class ManhattanDistance implements Heuristic{
     @Override

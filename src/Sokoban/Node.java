@@ -1,7 +1,6 @@
-import java.util.Arrays;
-import java.util.LinkedList;
+package Sokoban;
 import java.util.List;
-import java.util.Objects;
+import Heuristics.*;
 
 public class Node {
     private Snapshot snapshot;
@@ -11,7 +10,7 @@ public class Node {
     private List<Pair> positions;
     private Heuristic heuristic;
 
-    Node(Snapshot snapshot, Node parentNode, int depth, List<Directions> movements, Heuristic heuristic) {
+    public Node(Snapshot snapshot, Node parentNode, int depth, List<Directions> movements, Heuristic heuristic) {
         this.snapshot = snapshot;
         this.parentNode = parentNode;
         this.depth = depth;
@@ -19,7 +18,7 @@ public class Node {
         this.heuristic = heuristic;
     }
 
-    Node(Snapshot snapshot, Node parentNode, int depth, Heuristic heuristic) {
+    public Node(Snapshot snapshot, Node parentNode, int depth, Heuristic heuristic) {
         this.snapshot = snapshot;
         this.parentNode = parentNode;
         this.depth = depth;
@@ -27,7 +26,7 @@ public class Node {
     }
 
 
-    Node(Snapshot snapshot, Node parentNode, int depth, List<Pair> positions, List<Directions> movements) {
+    public Node(Snapshot snapshot, Node parentNode, int depth, List<Pair> positions, List<Directions> movements) {
         this.snapshot = snapshot;
         this.parentNode = parentNode;
         this.depth = depth;
@@ -35,7 +34,7 @@ public class Node {
         this.movements = movements;
     }
 
-    Node( Node node ) {
+    public Node( Node node ) {
         this.snapshot = node.snapshot;
         this.parentNode = node.parentNode;
         this.positions = node.positions;
@@ -43,7 +42,7 @@ public class Node {
         this.depth = node.depth;
     }
 
-    Node(Snapshot snapshot, Node parentNode, int depth) {
+    public Node(Snapshot snapshot, Node parentNode, int depth) {
         this.snapshot = snapshot;
         this.parentNode = parentNode;
         this.depth = depth;

@@ -1,3 +1,7 @@
+package Heuristics;
+
+import Sokoban.*;
+
 import java.util.List;
 
 public class ManhattanDistancePBO implements Heuristic{
@@ -5,7 +9,7 @@ public class ManhattanDistancePBO implements Heuristic{
     public int evaluate(Snapshot gamePhoto) {
         Sokoban game = new Sokoban(gamePhoto);
         Pair player = game.getPlayer();
-        int total = 0, min, aux;
+        int aux;
         List<Pair> gameObjectives = game.getObjectivesPositions();
         int minPlayerBox = Integer.MAX_VALUE;
         int minBoxGoal = Integer.MAX_VALUE;

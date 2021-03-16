@@ -1,4 +1,6 @@
+package UninformedSearch;
 import java.util.*;
+import Sokoban.*;
 
 public class IDDFS {
     public static Node solve(Sokoban game, Pair boardDimensions, int boxes ) {

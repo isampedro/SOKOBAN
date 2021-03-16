@@ -1,4 +1,4 @@
-import java.util.Arrays;
+package Sokoban;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +11,7 @@ public class Sokoban {
     private final int steppedObjectives;
     private  boolean movingBox;
 
-    Sokoban( Snapshot game ) {
+    public Sokoban(Snapshot game) {
         this.direction = game.getDirection();
         this.movingBox = game.isMovingBox();
         boxesPositions = new LinkedList<>();

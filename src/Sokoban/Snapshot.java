@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.Objects;
+package Sokoban;
 
 public class Snapshot {
     private  Character[][] game;

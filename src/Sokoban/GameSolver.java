@@ -1,14 +1,18 @@
+package Sokoban;
+
+import Heuristics.*;
+import UninformedSearch.*;
+import InformedSearch.*;
+
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.LinkedList;
 
 public class GameSolver {
     public static void main(String[] args) {
         Boards gameBoard = new Boards();
         final Sokoban game = new Sokoban(gameBoard.getBoard3());
         final Pair boardDimensions = new Pair(10, 15);
-        final int boxes = 2;
+        final Integer boxes = 2;
         System.out.println("Board:");
         game.show();
         Node solution;
