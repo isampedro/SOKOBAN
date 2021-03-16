@@ -1,11 +1,8 @@
 import java.util.*;
 
 public class DFS {
-    public static Node solve(Sokoban game) {
-        int TILES_X = 15,TILES_Y = 10;
-        int BOARD = TILES_X*TILES_Y;
-        int BOXES = 2;
-        int MAX_MOVEMENTS = BOARD*BOXES;
+    public static Node solve(Sokoban game, Pair boardDimensions, int boxes) {
+        int MAX_MOVEMENTS = boxes* boardDimensions.getX()* boardDimensions.getY();
 
         Map<Snapshot, Integer> visitedNodes = new HashMap<>();
         Stack<Node> frontierNodes = new Stack<>();

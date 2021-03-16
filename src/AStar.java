@@ -2,11 +2,8 @@ import java.util.*;
 
 public class AStar {
 
-    public static Node solve(Sokoban game, Heuristic heuristic) {
-        int TILES_X = 10, TILES_Y = 15;
-        int BOARD = TILES_X*TILES_Y;
-        int BOXES = 2;
-        int MAX_MOVEMENTS = BOARD*BOXES;
+    public static Node solve(Sokoban game, Pair boardDimensions, int boxes, Heuristic heuristic) {
+        int MAX_MOVEMENTS = boxes* boardDimensions.getX()* boardDimensions.getY();
 
         PriorityQueue<Node> frontierNodes = new PriorityQueue<>((n1, n2) -> {
             int ans = n1.evaluate() + n1.getDepth() - n2.evaluate() - n2.getDepth();
