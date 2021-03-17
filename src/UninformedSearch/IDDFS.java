@@ -16,9 +16,9 @@ public class IDDFS {
         rootNode = startNode;
         Sokoban start;
 
-        frontier.push(startNode);
+        frontier.push(rootNode);
         for( limit = 0; limit <= MAX_MOVEMENTS; limit += LIMIT) {
-            nextFrontier = new Stack<>();
+            frontier.push(rootNode);
             while(!frontier.isEmpty()) {
                 startNode = frontier.pop();
                 visited.put(startNode.getSnapshot(), startNode.getDepth());
@@ -34,11 +34,9 @@ public class IDDFS {
                             frontier.push(childNode);
                         }
                     }
-                } else {
-                    nextFrontier.push(startNode);
                 }
             }
-            frontier = nextFrontier;
+            visited.clear();
         }
         return null;
     }
