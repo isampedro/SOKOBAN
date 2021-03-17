@@ -4,26 +4,31 @@ import Heuristics.*;
 public class Node {
     private Snapshot snapshot;
     private Node parentNode;
-    private int depth;
+    private int depth, cost, expandedNodes, frontierNodes;
     private Heuristic heuristic;
 
     public Node(Snapshot snapshot, Node parentNode, int depth, Heuristic heuristic) {
         this.snapshot = snapshot;
         this.parentNode = parentNode;
         this.depth = depth;
+        this.cost = depth;
         this.heuristic = heuristic;
     }
 
-    public Node( Node node ) {
+    public Node( Node node, int expandedNodes, int frontierNodes ) {
         this.snapshot = node.snapshot;
         this.parentNode = node.parentNode;
         this.depth = node.depth;
+        this.cost = depth;
+        this.expandedNodes = expandedNodes;
+        this.frontierNodes = frontierNodes;
     }
 
     public Node(Snapshot snapshot, Node parentNode, int depth) {
         this.snapshot = snapshot;
         this.parentNode = parentNode;
         this.depth = depth;
+        this.cost = depth;
     }
 
     public Snapshot getSnapshot() {
@@ -38,16 +43,20 @@ public class Node {
         return parentNode;
     }
 
-    public void setParentNode(Node parentNode) {
-        this.parentNode = parentNode;
-    }
-
     public int getDepth() {
         return depth;
     }
 
-    public void setDepth(int depth) {
-        this.depth = depth;
+    public int getCost() {
+        return cost;
+    }
+
+    public int getExpandedNodes() {
+        return expandedNodes;
+    }
+
+    public int getFrontierNodes() {
+        return frontierNodes;
     }
 
     public int evaluate() {
