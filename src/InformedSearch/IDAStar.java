@@ -5,6 +5,8 @@ import java.util.*;
 
 public class IDAStar {
     static Integer frontierNodes = 0;
+    static int expandedNodes = 0;
+
 
     public static Node solve(Sokoban game, Heuristic heuristic, Pair boardDimensions, int boxes) {
         Node startNode = new Node(game.snapshot(), null, 0, heuristic);
@@ -40,7 +42,7 @@ public class IDAStar {
         }
         // encontre la solución --> la frontera va a ser igual a los nodos que me quedaron pendeintes de analizar
         frontierNodes = nextFrontierNodes.size();
-        return solution;
+        return solution == null ? null:new Node(solution, expandedNodes, frontierNodes);
     }
 
     private static Node search(Node currentNode, Queue<Node> nextFrontierNodes, int limit, Heuristic heuristic, Map<Integer, Set<Snapshot>> visited ) {
@@ -72,6 +74,7 @@ public class IDAStar {
         }
         visited.get(f).add(currentNode.getSnapshot());
 
+        expandedNodes++;
         // posibles movimeientos del snapshot actual
         List<Snapshot> moves = new Sokoban(currentNode.getSnapshot()).getPossibleMoves();
         // todos estos movimientos son los que voy a analizar ahora --> van a la frontera

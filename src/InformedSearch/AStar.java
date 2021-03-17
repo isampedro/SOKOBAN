@@ -6,7 +6,7 @@ import java.util.*;
 public class AStar {
 
     public static Node solve(Sokoban game, Pair boardDimensions, int boxes, Heuristic heuristic) {
-        int MAX_MOVEMENTS = boxes* boardDimensions.getX()* boardDimensions.getY();
+        int MAX_MOVEMENTS = boxes* boardDimensions.getX()* boardDimensions.getY(), expandedNodes = 0;
 
         PriorityQueue<Node> frontierNodes = new PriorityQueue<>((n1, n2) -> {
             if( n1.evaluate() == Integer.MAX_VALUE ) {
@@ -32,10 +32,11 @@ public class AStar {
             visited.put(currentNode.getSnapshot(), currentNode.getDepth());
 
             if( new Sokoban(currentNode.getSnapshot()).isOver() ) {
-                return currentNode;
+                return new Node(currentNode, expandedNodes, frontierNodes.size());
             }
 
             if( currentNode.getDepth() <= MAX_MOVEMENTS ) {
+                expandedNodes++;
                 List<Snapshot> moves = new Sokoban(currentNode.getSnapshot()).getPossibleMoves();
                 for (Snapshot move : moves) {
                     childNode = new Node(move, currentNode, currentNode.getDepth() + 1, heuristic);

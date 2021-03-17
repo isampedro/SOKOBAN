@@ -11,14 +11,16 @@ public class BFS {
         Node startNode = new Node(game.snapshot(), null, 0);
         frontier.offer(startNode);
         Node aux;
+        int expandedNodes = 0;
 
         while( !frontier.isEmpty() ) {
             aux = frontier.poll();
             visited.put(aux.getSnapshot(), aux.getDepth());
             if( new Sokoban(aux.getSnapshot()).isOver() ) {
-                return aux;
+                return new Node(aux, expandedNodes, frontier.size());
             }
             if( aux.getDepth() <= MAX_MOVEMENTS) {
+                expandedNodes++;
                 List<Snapshot> moves = new Sokoban(aux.getSnapshot()).getPossibleMoves();
                 for (Snapshot move : moves) {
                     startNode = new Node(move, aux, aux.getDepth() + 1);

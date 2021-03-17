@@ -15,6 +15,7 @@ public class IDDFS {
         Stack<Node> frontier = new Stack<>(), nextFrontier;
         rootNode = startNode;
         Sokoban start;
+        int expandedNodes = 0;
 
         frontier.push(rootNode);
         for( limit = 0; limit <= MAX_MOVEMENTS; limit += LIMIT) {
@@ -24,10 +25,11 @@ public class IDDFS {
                 visited.put(startNode.getSnapshot(), startNode.getDepth());
                 start = new Sokoban(startNode.getSnapshot());
                 if( start.isOver() ) {
-                    return startNode;
+                    return new Node(startNode, expandedNodes, frontier.size());
                 }
                 if( startNode.getDepth() <= limit ) {
                     moves = start.getPossibleMoves();
+                    expandedNodes++;
                     for( Snapshot move: moves ){
                         childNode = new Node(move, startNode, startNode.getDepth() + 1);
                         if( !contains(childNode, visited) && !contains(frontier, childNode)) {

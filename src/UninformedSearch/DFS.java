@@ -11,14 +11,16 @@ public class DFS {
         Node startNode = new Node(game.snapshot(), null, 0);
         frontierNodes.push(startNode);
         Node aux = null;
+        int expandedNodes = 0;
 
         while( !frontierNodes.isEmpty() ) {
             aux = frontierNodes.pop();
             visitedNodes.put(aux.getSnapshot(), aux.getDepth());
             if( new Sokoban(aux.getSnapshot()).isOver() ) {
-                return aux;
+                return new Node(aux, expandedNodes, frontierNodes.size());
             }
             if( aux.getDepth() <= MAX_MOVEMENTS) {
+                expandedNodes++;
                 List<Snapshot> moves = new Sokoban(aux.getSnapshot()).getPossibleMoves();
                 for (Snapshot move : moves) {
                     startNode = new Node(move, aux, aux.getDepth() + 1);
