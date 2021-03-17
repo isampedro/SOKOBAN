@@ -32,7 +32,8 @@ public class GameSolver {
 
     private static void runAlgorithmsOnBoard( Sokoban game, Pair boardDimensions, int boxes ) {
         long hours, minutes, seconds, millis;Instant starts, ends;Node solution = null;
-        Heuristic manhattanDistance = new ManhattanDistance(), manhattanDistancePBO = new ManhattanDistancePBO(), corneredBox = new CombinedHeuristic(new CorneredBoxDeadlock(), new ManhattanDistance()), tunnelDirection = new CombinedHeuristic(new TunnelDirection(), new ManhattanDistance());
+        Heuristic manhattanDistance = new ManhattanDistance(), manhattanDistancePBO = new ManhattanDistancePBO(), corneredBox = new CombinedHeuristic(new CorneredBoxDeadlock(),
+                new ManhattanDistance()), tunnelDirection = new CombinedHeuristic(new TunnelDirection(), new ManhattanDistance()), minMarchingLowerBound = new MinMatchingLowerBound();
 
         starts = Instant.now();
         System.out.println("Searching with BFS:");
@@ -81,7 +82,7 @@ public class GameSolver {
         solution = null;
         starts = Instant.now();
         System.out.println("Searching with A* and Cornered Box Deadlock with Manhattan Distance Box-Objective:");
-        solution = AStar.solve(game, boardDimensions, boxes, corneredBox);
+//        solution = AStar.solve(game, boardDimensions, boxes, corneredBox);
         ends = Instant.now();
         seconds = Duration.between(starts, ends).getSeconds() % 60;minutes = (Duration.between(starts, ends).getSeconds() / 60) % 60;
         hours = (Duration.between(starts, ends).getSeconds() / (60 * 60)) % 24;millis = Duration.between(starts, ends).toMillis() % 1000;
@@ -91,6 +92,15 @@ public class GameSolver {
         starts = Instant.now();
         System.out.println("Searching with A* and Tunnel Direction with Manhattan Distance Box-Objective Heuristic:");
 //        solution = AStar.solve(game, boardDimensions, boxes, tunnelDirection);
+        ends = Instant.now();
+        seconds = Duration.between(starts, ends).getSeconds() % 60;minutes = (Duration.between(starts, ends).getSeconds() / 60) % 60;
+        hours = (Duration.between(starts, ends).getSeconds() / (60 * 60)) % 24;millis = Duration.between(starts, ends).toMillis() % 1000;
+        showSolution(solution, seconds, minutes, hours, millis);
+
+        solution = null;
+        starts = Instant.now();
+        System.out.println("Searching with A* and Min Matching Lower Bound:");
+        solution = AStar.solve(game, boardDimensions, boxes, minMarchingLowerBound);
         ends = Instant.now();
         seconds = Duration.between(starts, ends).getSeconds() % 60;minutes = (Duration.between(starts, ends).getSeconds() / 60) % 60;
         hours = (Duration.between(starts, ends).getSeconds() / (60 * 60)) % 24;millis = Duration.between(starts, ends).toMillis() % 1000;
@@ -134,6 +144,15 @@ public class GameSolver {
 
         solution = null;
         starts = Instant.now();
+        System.out.println("Searching with GGS and Tunnel Direction Heuristic with Min Matching Lower Bound:");
+        solution = GlobalGreedySearch.solve(game, boardDimensions, boxes, minMarchingLowerBound);
+        ends = Instant.now();
+        seconds = Duration.between(starts, ends).getSeconds() % 60;minutes = (Duration.between(starts, ends).getSeconds() / 60) % 60;
+        hours = (Duration.between(starts, ends).getSeconds() / (60 * 60)) % 24;millis = Duration.between(starts, ends).toMillis() % 1000;
+        showSolution(solution, seconds, minutes, hours, millis);
+
+        solution = null;
+        starts = Instant.now();
         System.out.println("Searching with IDA* and Manhattan Distance Box-Objective:");
 //        solution = IDAStar.solve(game, manhattanDistance, boardDimensions, boxes);
         ends = Instant.now();
@@ -158,7 +177,7 @@ public class GameSolver {
 //        seconds = Duration.between(starts, ends).getSeconds() % 60;minutes = (Duration.between(starts, ends).getSeconds() / 60) % 60;
 //        hours = (Duration.between(starts, ends).getSeconds() / (60 * 60)) % 24;millis = Duration.between(starts, ends).toMillis() % 1000;
 //        showSolution(solution, seconds, minutes, hours, millis);
-//
+
 //        solution = null;
 //        starts = Instant.now();
 //        System.out.println("Searching with IDA* and Tunnel Direction Heuristic with Manhattan Distance Box-Objective:");
@@ -167,6 +186,15 @@ public class GameSolver {
 //        seconds = Duration.between(starts, ends).getSeconds() % 60;minutes = (Duration.between(starts, ends).getSeconds() / 60) % 60;
 //        hours = (Duration.between(starts, ends).getSeconds() / (60 * 60)) % 24;millis = Duration.between(starts, ends).toMillis() % 1000;
 //        showSolution(solution, seconds, minutes, hours, millis);
+
+        solution = null;
+        starts = Instant.now();
+        System.out.println("Searching with IDA* and Min Marching Lower Bound:");
+        solution = IDAStar.solve(game, minMarchingLowerBound, boardDimensions, boxes);
+        ends = Instant.now();
+        seconds = Duration.between(starts, ends).getSeconds() % 60;minutes = (Duration.between(starts, ends).getSeconds() / 60) % 60;
+        hours = (Duration.between(starts, ends).getSeconds() / (60 * 60)) % 24;millis = Duration.between(starts, ends).toMillis() % 1000;
+        showSolution(solution, seconds, minutes, hours, millis);
 
     }
 

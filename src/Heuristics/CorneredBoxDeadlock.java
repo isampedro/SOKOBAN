@@ -26,15 +26,24 @@ public class CorneredBoxDeadlock implements Heuristic {
 
     private boolean isCornered( Sokoban game, Pair box ) {
         List<Pair> walls = game.getSurroundingWalls(box);
-        if( walls.contains(new Pair(box.getX()-1, box.getY())) && (walls.contains(new Pair(box.getX(), box.getY()+1)) || walls.contains(new Pair(box.getX(), box.getY()-1)))) {
+        if( contains(box.getX()-1, box.getY(), walls) && (contains(box.getX(), box.getY()+1, walls) || contains(box.getX(), box.getY()-1, walls))) {
             return true;
         }
-        if( walls.contains(new Pair(box.getX()+1, box.getY())) && (walls.contains(new Pair(box.getX(), box.getY()+1)) || walls.contains(new Pair(box.getX(), box.getY()-1)))) {
+        if( contains(box.getX()+1, box.getY(), walls) && (contains( box.getX(), box.getY()+1, walls) || contains(box.getX(), box.getY()-1, walls))) {
             return true;
         }
-        if( walls.contains(new Pair(box.getX(), box.getY()-1)) && (walls.contains(new Pair(box.getX()-1, box.getY())) || walls.contains(new Pair(box.getX()+1, box.getY())))) {
+        if( contains(box.getX(), box.getY()-1, walls) && (contains(box.getX()-1, box.getY(), walls) || contains(box.getX()+1, box.getY(), walls))) {
             return true;
         }
-        return walls.contains(new Pair(box.getX(), box.getY() + 1)) && (walls.contains(new Pair(box.getX() - 1, box.getY())) || walls.contains(new Pair(box.getX() + 1, box.getY())));
+        return contains(box.getX(), box.getY() + 1, walls) && (contains(box.getX() - 1, box.getY(), walls) || contains(box.getX() + 1, box.getY(), walls));
+    }
+
+    private boolean contains(int x, int y, List<Pair> walls ) {
+        for (Pair wall : walls) {
+            if( wall.getX() == x && wall.getY() == y ) {
+                return true;
+            }
+        }
+        return false;
     }
 }
