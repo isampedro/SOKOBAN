@@ -14,7 +14,7 @@ public class TunnelDirection implements Heuristic{
                 for (Pair objective : game.getObjectivesPositions()) {
                     isOnObjective |= objective.equals(box);
                 }
-                if (!isOnObjective && game.getDirection() != tunnelDirection ) {
+                if (!isOnObjective && game.getDirection() != tunnelDirection && game.isMovingBox() ) {
                     return Integer.MAX_VALUE;
                 }
             }
