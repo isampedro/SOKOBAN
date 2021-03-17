@@ -201,8 +201,13 @@ public class GameSolver {
     private static void showSolution(Node solution, long seconds, long minutes, long hours, long millis ) {
         if (solution != null && new Sokoban(solution.getSnapshot()).isOver()) {
             System.out.println("The algorithm succeeded to find a solution");
-            System.out.println("Finished Board:");
-            new Sokoban(solution.getSnapshot()).show();
+            System.out.println("Steps from solution to start:");
+            Node finish = solution;
+            while( finish != null ) {
+                new Sokoban(finish.getSnapshot()).show();
+                System.out.println();
+                finish = finish.getParentNode();
+            }
             System.out.println("Solution cost: " + solution.getCost());
             System.out.println("Solution depth: " + solution.getDepth());
             System.out.println("Expanded nodes: " + solution.getExpandedNodes());
