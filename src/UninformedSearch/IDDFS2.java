@@ -3,29 +3,28 @@ import java.util.*;
 import Sokoban.*;
 
 public class IDDFS2 {
-    static Integer frontierNodes = 0;
+    static Integer frontierNodes = 0, expandedNodes = 0;
 
 
     public static Node solve(Sokoban game, Pair boardDimensions, int boxes) {
         int MAX_MOVEMENTS = boxes * boardDimensions.getY() * boardDimensions.getX();
-//        int LIMIT = MAX_MOVEMENTS / 10;
-        int limit = 10;
+        int LIMIT = MAX_MOVEMENTS / 10, limit = LIMIT;
 
         Node startNode = new Node(game.snapshot(), null, 0);
         Node auxNode, solution = null;
         boolean max_movements = false;
         List<Snapshot> moves;
         List<Set<Snapshot>> visited = new ArrayList<>();
-//        Map<Snapshot, Integer> visited = new HashMap<>();
         Queue<Node> currentNodes = new LinkedList<>();
         Queue<Node> nextFrontierNodes = new LinkedList<>();
-        //inicializo la lista de sets
+
         for (int i = 0; i < MAX_MOVEMENTS; i++) {
             visited.add(new HashSet<Snapshot>());
         }
         currentNodes.add(startNode);
         while (solution == null && !currentNodes.isEmpty() && !max_movements) {
             auxNode = currentNodes.poll();
+
             if(auxNode.getDepth() > MAX_MOVEMENTS){
                 max_movements = true;
             }
@@ -33,10 +32,10 @@ public class IDDFS2 {
             if (currentNodes.isEmpty()) {
                 currentNodes.addAll(nextFrontierNodes);
                 nextFrontierNodes.clear();
-                limit += 10;
+                limit += LIMIT;
             }
         }
-        return solution;
+        return solution == null ? null:new Node(solution, expandedNodes, frontierNodes);
     }
 
     private static Node search(Node currentNode, Queue<Node> nextFrontierNodes, List<Set<Snapshot>> visited, int limit) {
@@ -58,7 +57,10 @@ public class IDDFS2 {
         }
         visited.get(currentNode.getDepth()).add(currentNode.getSnapshot());
         List<Snapshot> moves = new Sokoban(currentNode.getSnapshot()).getPossibleMoves();
+        expandedNodes++;
+        frontierNodes += moves.size();
         for (Snapshot move : moves) {
+
             Node childNode = new Node(move, currentNode, currentNode.getDepth() + 1);
             childNode = search(childNode, nextFrontierNodes, visited, limit);
             if (childNode != null) {

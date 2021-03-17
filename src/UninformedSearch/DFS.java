@@ -3,51 +3,46 @@ import java.util.*;
 import Sokoban.*;
 
 public class DFS {
+    static Integer frontierNodes = 0, expandedNodes = 0;
+
+
     public static Node solve(Sokoban game, Pair boardDimensions, int boxes) {
-        int MAX_MOVEMENTS = boxes* boardDimensions.getX()* boardDimensions.getY();
+        int MAX_MOVEMENTS = boxes * boardDimensions.getY() * boardDimensions.getX();
 
-        Map<Snapshot, Integer> visitedNodes = new HashMap<>();
-        Stack<Node> frontierNodes = new Stack<>();
         Node startNode = new Node(game.snapshot(), null, 0);
-        frontierNodes.push(startNode);
-        Node aux = null;
-        int expandedNodes = 0;
+        Node solution = null;
+        Set<Snapshot> visited = new HashSet<>();
 
-        while( !frontierNodes.isEmpty() ) {
-            aux = frontierNodes.pop();
-            visitedNodes.put(aux.getSnapshot(), aux.getDepth());
-            if( new Sokoban(aux.getSnapshot()).isOver() ) {
-                return new Node(aux, expandedNodes, frontierNodes.size());
-            }
-            if( aux.getDepth() <= MAX_MOVEMENTS) {
-                expandedNodes++;
-                List<Snapshot> moves = new Sokoban(aux.getSnapshot()).getPossibleMoves();
-                for (Snapshot move : moves) {
-                    startNode = new Node(move, aux, aux.getDepth() + 1);
-                    if( !contains(startNode, visitedNodes) && !contains(frontierNodes, startNode)) {
-                        frontierNodes.push(startNode);
-                    }
-                }
+        solution = search(startNode, visited, MAX_MOVEMENTS);
+
+        return solution == null ? null:new Node(solution, expandedNodes, frontierNodes);
+    }
+
+    private static Node search(Node currentNode, Set<Snapshot> visited, int limit) {
+        if (frontierNodes > 0) {
+            frontierNodes--;
+        }
+        if (new Sokoban(currentNode.getSnapshot()).isOver()) {
+            return currentNode;
+        }
+        if (currentNode.getDepth() > limit) {
+            return null;
+        }
+        // chequeo que no haya visitado el nodo aún
+        if (visited.contains(currentNode.getSnapshot())) {
+            return null;
+        }
+        visited.add(currentNode.getSnapshot());
+        List<Snapshot> moves = new Sokoban(currentNode.getSnapshot()).getPossibleMoves();
+        expandedNodes++;
+        frontierNodes += moves.size();
+        for (Snapshot move : moves) {
+            Node childNode = new Node(move, currentNode, currentNode.getDepth() + 1);
+            childNode = search(childNode, visited, limit);
+            if (childNode != null) {
+                return childNode;
             }
         }
         return null;
-    }
-
-    private static boolean contains( Iterable<Node> nodeList, Node node ) {
-        for (Node nodeFromList : nodeList) {
-            if( nodeFromList.equals( node ) ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean contains(Node node, Map<Snapshot, Integer> nodesIterable) {
-        Integer depth;
-        if( nodesIterable.containsKey(node.getSnapshot())) {
-            depth = nodesIterable.get(node.getSnapshot());
-            return node.getDepth() > depth;
-        }
-        return false;
     }
 }
