@@ -387,7 +387,10 @@ public class Sokoban {
     }
 
     public List<Pair> getSurroundingPaths( Pair cell ) {
-        return getSurroundingElements(cell, null);
+
+        List<Pair> paths = getSurroundingElements(cell, null);
+        paths.addAll(getSurroundingElements(cell, Cells.Objective));
+        return paths;
     }
 
     public boolean isPlayerAround( Pair cell ) {
