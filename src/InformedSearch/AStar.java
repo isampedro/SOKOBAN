@@ -9,6 +9,12 @@ public class AStar {
         int MAX_MOVEMENTS = boxes* boardDimensions.getX()* boardDimensions.getY();
 
         PriorityQueue<Node> frontierNodes = new PriorityQueue<>((n1, n2) -> {
+            if( n1.evaluate() == Integer.MAX_VALUE ) {
+                return Integer.MAX_VALUE;
+            }
+            if( n2.evaluate() == Integer.MAX_VALUE ) {
+                return Integer.MIN_VALUE;
+            }
             int ans = n1.evaluate() + n1.getDepth() - n2.evaluate() - n2.getDepth();
             if( ans == 0 ) {
                 return n1.evaluate() - n2.evaluate();
@@ -17,7 +23,6 @@ public class AStar {
             }
         });
         Map<Snapshot, Integer> visited = new HashMap<>();
-        List<Directions> movements;
         Node currentNode, childNode;
         Node startNode = new Node(game.snapshot(), null, 0, heuristic);
         frontierNodes.add(startNode);

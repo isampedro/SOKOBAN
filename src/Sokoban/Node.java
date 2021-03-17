@@ -67,4 +67,8 @@ public class Node {
     public int hashCode() {
         return snapshot.hashCode();
     }
+
+    public Heuristic getHeuristic() {
+        return heuristic;
+    }
 }

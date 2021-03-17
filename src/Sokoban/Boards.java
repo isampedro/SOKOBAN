@@ -28,28 +28,27 @@ public class Boards {
             {null,null,null,null,null,'#',null,null,null,'#'},
             {'#','#','#','#',null,'#',null,null,null,'#'},
             {'#',null,null,'#','#','#','#','$','#','#','#','#','#'},
-            {'#','.',null,null,null,null,null,null,null,null,null,null,'#'},
+            {'#',null,null,null,null,null,null,null,null,null,null,null,'#'},
             {'#',null,'.','#','#',null,'#',null,'#','#','.',null,'#'},
             {'#',null,null,null,null,null,null,null,null,null,null,null,'#'},
             {'#','#','#','#','#','$','#','#','#','#',null,null,'#'},
-            {null,null,'#',null,'$',null,null,'#',null,'#','#','#','#'},
-            {null,null,'#',null,null,'@',null,'#',null,null,null,null,null},
-            {null,null,'#',null,null,null,null,'#',null,null,null,null,null},
-            {null,null,'#','#','#','#','#','#',null,null,null,null,null}
+            {null,null,null,'#',null,null,null,'#',null,'#','#','#','#'},
+            {null,null,null,'#',null,'@',null,'#',null,null,null,null,null},
+            {null,null,null,'#',null,null,null,'#',null,null,null,null,null},
+            {null,null,null,'#','#','#','#','#',null,null,null,null,null}
     };
-    //DimX = 13, DimY = 13, Boxes = 3
+    //DimX = 13, DimY = 13, Boxes = 2
 
     private Character[][] board3 = new Character[][]{
-            {'#','#','#','#','#','#'},
-            {'#',null,null,null,null,'#'},
-            {'#',null,'$','$',null,'#','#'},
-            {'#',null,'$','.','.','.','#','#','#'},
-            {'#','#','#','.','.','.','$','@','#'},
-            {null,null,'#','#',null,'$','$',null,'#'},
-            {null,null,null,'#',null,null,null,null,'#'},
-            {null,null,null,'#','#','#','#','#','#'}
+            {null,'#','#','#','#','#'},
+            {'#','#',null,null,null,'#'},
+            {'#',null,null,'.',null,'#'},
+            {'#',null,'$','.','$','#','#','#'},
+            {'#','#','$','.','$',null,null,'#'},
+            {null,'#',null,'.','@',null,null,'#'},
+            {null,'#','#','#','#','#','#','#'}
     };
-    //DimX = 8, DimY = 9, Boxes = 6
+    //DimX = 7, DimY = 8, Boxes = 4
 
     public Character[][] getBoard3() {
         return board3;

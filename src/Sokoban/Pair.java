@@ -36,13 +36,13 @@ public class Pair {
     public Directions direction( Pair p) {
         Pair vector = this.subtract(p);
         if( vector.getX() > 0 && vector.getY() == 0 ){
-            return Directions.Down;
-        } else if ( vector.getX() < 0 && vector.getY() == 0 ) {
             return Directions.Up;
+        } else if ( vector.getX() < 0 && vector.getY() == 0 ) {
+            return Directions.Down;
         } else if( vector.getX() == 0 && vector.getY() > 0 ) {
-            return Directions.Right;
-        } else {
             return Directions.Left;
+        } else {
+            return Directions.Right;
         }
     }
 
