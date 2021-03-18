@@ -4,12 +4,13 @@ import Heuristics.*;
 import InformedSearch.*;
 import UninformedSearch.*;
 
+import java.io.*;
 import java.time.Duration;
 import java.time.Instant;
 
 public class GameSolver {
     public static void main(String[] args) {
-        Configurations config = new Configurations();
+        Configurations config = new Configurations(args);
         System.out.println("Board:");
         Sokoban game = new Sokoban(config.getBoard());
         game.show();
@@ -20,7 +21,7 @@ public class GameSolver {
         long hours, minutes, seconds, millis;Instant starts, ends;
         Node solution = null;
         starts = Instant.now();
-        System.out.println("Solving... wait");
+        System.out.println("Solving with " + searchAlg + "... wait");
         switch (searchAlg) {
             case "BFS":
                 solution = BFS.solve(game, boardDimensions, boxes);
@@ -39,6 +40,10 @@ public class GameSolver {
                 break;
             case "IDAStar":
                 solution = IDAStar.solve(game, heuristic, boardDimensions, boxes);
+                break;
+            default:
+                System.out.println("Set a valid search algorithm");
+                System.exit(1);
                 break;
         }
         ends = Instant.now();
