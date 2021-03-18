@@ -24,7 +24,7 @@ public class GameSolver {
                 solution = BFS.solve(game, boardDimensions, boxes);
                 break;
             case "DFS":
-                solution = DFS.solve(game, boardDimensions, boxes);
+                solution = DFS2.solve(game, boardDimensions, boxes);
                 break;
             case "IDDFS":
                 solution = IDDFS2.solve(game, boardDimensions, boxes);

@@ -12,11 +12,11 @@ public class Configurations {
     private final String searchAlg;
 
     public Configurations() {
-        board = new Boards().getBoard1();
+        board = new Boards().getBoard3();
         dimX = 10; dimY = 15;
         boxes = 2;
         heuristic = new ManhattanDistancePBO();
-        searchAlg = "IDAStar";
+        searchAlg = "DFS";
     }
 
     public Character[][] getBoard() {
