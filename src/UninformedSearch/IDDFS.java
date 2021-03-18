@@ -5,7 +5,7 @@ import Sokoban.*;
 public class IDDFS {
     public static Node solve(Sokoban game, Pair boardDimensions, int boxes ) {
         int MAX_MOVEMENTS = boxes*boardDimensions.getY()*boardDimensions.getX();
-        int LIMIT = MAX_MOVEMENTS/10;
+        int LIMIT = 30;
         int limit;
 
         Node rootNode, startNode = new Node(game.snapshot(), null, 0);

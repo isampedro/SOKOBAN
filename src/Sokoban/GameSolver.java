@@ -30,7 +30,7 @@ public class GameSolver {
                 solution = DFS2.solve(game, boardDimensions, boxes);
                 break;
             case "IDDFS":
-                solution = IDDFS2.solve(game, boardDimensions, boxes);
+                solution = IDDFS.solve(game, boardDimensions, boxes);
                 break;
             case "AStar":
                 solution = AStar.solve(game, boardDimensions, boxes, heuristic);
