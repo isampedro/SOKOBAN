@@ -3,61 +3,68 @@ import java.util.*;
 import Sokoban.*;
 
 public class IDDFS {
-    public static Node solve(Sokoban game, Pair boardDimensions, int boxes ) {
-        int MAX_MOVEMENTS = boxes*boardDimensions.getY()*boardDimensions.getX();
-        int LIMIT = 30;
-        int limit;
+    static Integer frontierNodes = 0, expandedNodes = 0;
 
-        Node rootNode, startNode = new Node(game.snapshot(), null, 0);
-        Node childNode;
+
+    public static Node solve(Sokoban game, Pair boardDimensions, int boxes) {
+        int MAX_MOVEMENTS = boxes * boardDimensions.getY() * boardDimensions.getX();
+        int limit = 30;
+
+        Node startNode = new Node(game.snapshot(), null, 0);
+        Node auxNode, solution = null;
+        boolean max_movements = false;
         List<Snapshot> moves;
-        Map<Snapshot, Integer> visited = new HashMap<>();
-        Stack<Node> frontier = new Stack<>(), nextFrontier;
-        rootNode = startNode;
-        Sokoban start;
-        int expandedNodes = 0;
-
-        frontier.push(rootNode);
-        for( limit = 0; limit <= MAX_MOVEMENTS; limit += LIMIT) {
-            frontier.push(rootNode);
-            while(!frontier.isEmpty()) {
-                startNode = frontier.pop();
-                visited.put(startNode.getSnapshot(), startNode.getDepth());
-                start = new Sokoban(startNode.getSnapshot());
-                if( start.isOver() ) {
-                    return new Node(startNode, expandedNodes, frontier.size());
-                }
-                if( startNode.getDepth() <= limit ) {
-                    moves = start.getPossibleMoves();
-                    expandedNodes++;
-                    for( Snapshot move: moves ){
-                        childNode = new Node(move, startNode, startNode.getDepth() + 1);
-                        if( !contains(childNode, visited) && !contains(frontier, childNode)) {
-                            frontier.push(childNode);
-                        }
-                    }
-                }
+        List<Set<Snapshot>> visited = new ArrayList<>();
+        Queue<Node> currentNodes = new LinkedList<>();
+        Queue<Node> nextFrontierNodes = new LinkedList<>();
+        //inicializo la lista de sets
+        for (int i = 0; i < MAX_MOVEMENTS; i++) {
+            visited.add(new HashSet<Snapshot>());
+        }
+        currentNodes.add(startNode);
+        while (solution == null && !currentNodes.isEmpty() && !max_movements) {
+            auxNode = currentNodes.poll();
+            if(auxNode.getDepth() > MAX_MOVEMENTS){
+                max_movements = true;
             }
-            visited.clear();
+            solution = search(auxNode, nextFrontierNodes, visited, limit);
+            if (currentNodes.isEmpty()) {
+                currentNodes.addAll(nextFrontierNodes);
+                nextFrontierNodes.clear();
+                limit += 10;
+            }
+        }
+        return solution == null ? null:new Node(solution,expandedNodes, frontierNodes);
+    }
+
+    private static Node search(Node currentNode, Queue<Node> nextFrontierNodes, List<Set<Snapshot>> visited, int limit) {
+        if (frontierNodes > 0) {
+            frontierNodes--;
+        }
+        if (new Sokoban(currentNode.getSnapshot()).isOver()) {
+            return currentNode;
+        }
+        if (currentNode.getDepth() > limit) {
+            nextFrontierNodes.add(currentNode);
+            return null;
+        }
+        // chequeo que no haya visitado el nodo aún
+        for (int i = 0; i < limit; i++) {
+            if (visited.get(i).contains(currentNode.getSnapshot())) {
+                return null;
+            }
+        }
+        visited.get(currentNode.getDepth()).add(currentNode.getSnapshot());
+        List<Snapshot> moves = new Sokoban(currentNode.getSnapshot()).getPossibleMoves();
+        expandedNodes++;
+        frontierNodes += moves.size();
+        for (Snapshot move : moves) {
+            Node childNode = new Node(move, currentNode, currentNode.getDepth() + 1);
+            childNode = search(childNode, nextFrontierNodes, visited, limit);
+            if (childNode != null) {
+                return childNode;
+            }
         }
         return null;
-    }
-
-    private static boolean contains(Node node, Map<Snapshot, Integer> nodesIterable) {
-        Integer depth;
-        if( nodesIterable.containsKey(node.getSnapshot())) {
-            depth = nodesIterable.get(node.getSnapshot());
-            return node.getDepth() > depth;
-        }
-        return false;
-    }
-
-    private static boolean contains( Iterable<Node> nodeList, Node node ) {
-        for (Node nodeFromList : nodeList) {
-            if( new Sokoban(nodeFromList.getSnapshot()).equals(new Sokoban(node.getSnapshot())) ) {
-                return true;
-            }
-        }
-        return false;
     }
 }
