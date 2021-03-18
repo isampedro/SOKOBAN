@@ -12,6 +12,7 @@ public class GameSolver {
         Configurations config = new Configurations();
         System.out.println("Board:");
         Sokoban game = new Sokoban(config.getBoard());
+        game.show();
         runAlgorithmOnBoard(game, new Pair(config.getDimX(), config.getDimY()), config.getBoxes(), config.getHeuristic(), config.getSearchAlg());
     }
 
@@ -19,6 +20,7 @@ public class GameSolver {
         long hours, minutes, seconds, millis;Instant starts, ends;
         Node solution = null;
         starts = Instant.now();
+        System.out.println("Solving... wait");
         switch (searchAlg) {
             case "BFS":
                 solution = BFS.solve(game, boardDimensions, boxes);
